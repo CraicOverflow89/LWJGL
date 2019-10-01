@@ -5,13 +5,43 @@ import craicoverflow89.lwjgl.helpers.Maths;
 import craicoverflow89.lwjgl.models.RawModel;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.shaders.StaticShader;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Matrix4f;
 
 public final class ModelRender {
+
+    private static final float FIELD_OF_VIEW = 70f;
+    private static final float NEAR_PLANE = 0.1f;
+    private static final float FAR_PLANE = 1000f;
+
+    public ModelRender(StaticShader shader) {
+
+        // Load Projection
+        shader.start();
+        shader.loadProjectionMatrix(createProjectionMatrix());
+        shader.stop();
+    }
+
+    private Matrix4f createProjectionMatrix() {
+
+        // Fetch Values
+        final float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
+        final float scaleY = (float) (1f / Math.tan(Math.toRadians(FIELD_OF_VIEW / 2f))) * aspectRatio;
+        final float scaleX = scaleY / aspectRatio;
+        final float frustumLength = FAR_PLANE - NEAR_PLANE;
+
+        // Create Matrix
+        final Matrix4f matrix = new Matrix4f();
+        matrix.m00 = scaleX;
+        matrix.m11 = scaleY;
+        matrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustumLength);
+        matrix.m23 = -1;
+        matrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustumLength);
+        matrix.m33 = 0;
+
+        // Return Matrix
+        return matrix;
+    }
 
     public void prepare() {
 

@@ -17,12 +17,10 @@ public final class GameLoop {
         // Create Display
         DisplayManager.createDisplay();
 
-        // Model Logic
+        // Create Logic
         final ModelLoader loader = new ModelLoader();
-        final ModelRender renderer = new ModelRender();
-
-        // Shader Logic
         final StaticShader shader = new StaticShader();
+        final ModelRender renderer = new ModelRender(shader);
 
         // Example Entity
         final Entity entity = new Entity(new TexturedModel(loader.loadToVAO(new float[] {
@@ -34,10 +32,14 @@ public final class GameLoop {
             0, 0, 0, 1, 1, 1, 1, 0
         }, new int[] {
             0, 1, 3, 3, 1, 2
-        }), new ModelTexture(loader.loadTexture("test/image"))), new Vector3f(-1, 0, 0), 0, 0, 0, 1);
+        }), new ModelTexture(loader.loadTexture("test/image"))), new Vector3f(0, 0, -1), 0, 0, 0, 1);
 
         // Game Running
         while(!Display.isCloseRequested()) {
+
+            // Test Transformation
+            entity.move(0f, 0f, -0.05f);
+            //entity.rotate(0f, 1f, 0f);
 
             // Prepare Renderer
             renderer.prepare();

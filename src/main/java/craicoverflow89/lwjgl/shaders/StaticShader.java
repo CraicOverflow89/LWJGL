@@ -6,7 +6,7 @@ public final class StaticShader extends AbstractShader {
 
     private static final String VERTEX_FILE = "vertexShader";
     private static final String FRAGMENT_FILE = "fragmentShader";
-    private int location_transformationMatrix;
+    private int location_transformationMatrix, location_projectionMatrix;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -19,10 +19,15 @@ public final class StaticShader extends AbstractShader {
 
     protected void getUniformLocations() {
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
+        location_projectionMatrix = super.getUniformLocation("projectionMatrix");
     }
 
-    public void loadTransformationMatrix(Matrix4f matrix) {
-        super.loadUniform(location_transformationMatrix, matrix);
+    public void loadProjectionMatrix(Matrix4f projection) {
+        super.loadUniform(location_projectionMatrix, projection);
+    }
+
+    public void loadTransformationMatrix(Matrix4f transformation) {
+        super.loadUniform(location_transformationMatrix, transformation);
     }
 
 }
