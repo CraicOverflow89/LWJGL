@@ -1,4 +1,4 @@
-package craicoverflow89.lwjgl.renderengine;
+package craicoverflow89.lwjgl.models;
 
 public class RawModel {
 

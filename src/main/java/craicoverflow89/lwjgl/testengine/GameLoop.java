@@ -1,10 +1,11 @@
 package craicoverflow89.lwjgl.testengine;
 
+import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.DisplayManager;
 import craicoverflow89.lwjgl.renderengine.ModelLoader;
 import craicoverflow89.lwjgl.renderengine.ModelRender;
-import craicoverflow89.lwjgl.renderengine.RawModel;
 import craicoverflow89.lwjgl.shaders.StaticShader;
+import craicoverflow89.lwjgl.textures.ModelTexture;
 import org.lwjgl.opengl.Display;
 
 public class GameLoop {
@@ -22,14 +23,14 @@ public class GameLoop {
         final StaticShader shader = new StaticShader();
 
         // Example Model
-        final RawModel model = loader.loadToVAO(new float[] {
-            -0.5f, 0.5f, 0f,
-            -0.5f, -0.5f, 0f,
-            0.5f, -0.5f, 0f,
-            0.5f, 0.5f, 0f
+        final TexturedModel texturedModel = new TexturedModel(loader.loadToVAO(new float[] {
+                -0.5f, 0.5f, 0f,
+                -0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, 0.5f, 0f
         }, new int[] {
-            0, 1, 3, 3, 1, 2
-        });
+                0, 1, 3, 3, 1, 2
+        }), new ModelTexture(loader.loadTexture("test/image")));
 
         // Game Running
         while(!Display.isCloseRequested()) {
@@ -42,7 +43,7 @@ public class GameLoop {
 
             // Game Render
             shader.start();
-            renderer.render(model);
+            renderer.render(texturedModel);
             shader.stop();
             DisplayManager.updateDisplay();
         }
