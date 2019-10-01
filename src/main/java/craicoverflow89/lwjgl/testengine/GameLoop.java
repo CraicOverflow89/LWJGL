@@ -1,5 +1,6 @@
 package craicoverflow89.lwjgl.testengine;
 
+import craicoverflow89.lwjgl.entities.Camera;
 import craicoverflow89.lwjgl.entities.Entity;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.DisplayManager;
@@ -22,33 +23,28 @@ public final class GameLoop {
         final StaticShader shader = new StaticShader();
         final ModelRender renderer = new ModelRender(shader);
 
+        // Create Camera
+        final Camera camera = new Camera();
+
         // Example Entity
-        final Entity entity = new Entity(new TexturedModel(loader.loadToVAO(new float[] {
-            -0.5f, 0.5f, 0f,
-            -0.5f, -0.5f, 0f,
-            0.5f, -0.5f, 0f,
-            0.5f, 0.5f, 0f
-        }, new float[] {
-            0, 0, 0, 1, 1, 1, 1, 0
-        }, new int[] {
-            0, 1, 3, 3, 1, 2
-        }), new ModelTexture(loader.loadTexture("test/image"))), new Vector3f(0, 0, -1), 0, 0, 0, 1);
+        final Entity entity = testEntity(loader);
 
         // Game Running
         while(!Display.isCloseRequested()) {
 
             // Test Transformation
-            entity.move(0f, 0f, -0.05f);
-            //entity.rotate(0f, 1f, 0f);
+            //entity.move(0f, 0f, -0.05f);
+            entity.rotate(1f, 1f, 0f);
+
+            // Camera Movement
+            camera.move();
 
             // Prepare Renderer
             renderer.prepare();
 
-            // Game Logic
-            //
-
             // Game Render
             shader.start();
+            shader.loadViewMatrix(camera);
             renderer.render(entity, shader);
             shader.stop();
             DisplayManager.updateDisplay();
@@ -60,7 +56,78 @@ public final class GameLoop {
 
         // Close Display
         DisplayManager.closeDisplay();
+    }
 
+    private static Entity testEntity(ModelLoader loader) {
+        return new Entity(new TexturedModel(loader.loadToVAO(new float[] {
+            -0.5f,0.5f,-0.5f,
+            -0.5f,-0.5f,-0.5f,
+            0.5f,-0.5f,-0.5f,
+            0.5f,0.5f,-0.5f,
+
+            -0.5f,0.5f,0.5f,
+            -0.5f,-0.5f,0.5f,
+            0.5f,-0.5f,0.5f,
+            0.5f,0.5f,0.5f,
+
+            0.5f,0.5f,-0.5f,
+            0.5f,-0.5f,-0.5f,
+            0.5f,-0.5f,0.5f,
+            0.5f,0.5f,0.5f,
+
+            -0.5f,0.5f,-0.5f,
+            -0.5f,-0.5f,-0.5f,
+            -0.5f,-0.5f,0.5f,
+            -0.5f,0.5f,0.5f,
+
+            -0.5f,0.5f,0.5f,
+            -0.5f,0.5f,-0.5f,
+            0.5f,0.5f,-0.5f,
+            0.5f,0.5f,0.5f,
+
+            -0.5f,-0.5f,0.5f,
+            -0.5f,-0.5f,-0.5f,
+            0.5f,-0.5f,-0.5f,
+            0.5f,-0.5f,0.5f
+        }, new float[] {
+            0,0,
+            0,1,
+            1,1,
+            1,0,
+            0,0,
+            0,1,
+            1,1,
+            1,0,
+            0,0,
+            0,1,
+            1,1,
+            1,0,
+            0,0,
+            0,1,
+            1,1,
+            1,0,
+            0,0,
+            0,1,
+            1,1,
+            1,0,
+            0,0,
+            0,1,
+            1,1,
+            1,0
+        }, new int[] {
+            0,1,3,
+            3,1,2,
+            4,5,7,
+            7,5,6,
+            8,9,11,
+            11,9,10,
+            12,13,15,
+            15,13,14,
+            16,17,19,
+            19,17,18,
+            20,21,23,
+            23,21,22
+        }), new ModelTexture(loader.loadTexture("test/image"))), new Vector3f(0, 0, -5), 0, 0, 0, 1);
     }
 
 }
