@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +16,36 @@ public class ModelLoader {
     private List<Integer> vaoList = new ArrayList();
     private List<Integer> vboList = new ArrayList();
 
-    public RawModel loadToVAO(float[] positions) {
+    public RawModel loadToVAO(float[] positions, int[] indicies) {
 
         // Create VAO
         final int vaoID = createVAO();
+
+        // Bind Indices
+        bindIndiciesBuffer(indicies);
 
         // Store Data
         storeData(0, positions);
         unbindVAO();
 
         // Create Model
-        return new RawModel(vaoID, positions.length / 3);
+        return new RawModel(vaoID, indicies.length);
+    }
+
+    private void bindIndiciesBuffer(int[] indices) {
+
+        // Create VBO
+        final int vboID = GL15.glGenBuffers();
+        vboList.add(vboID);
+
+        // Bind VBO
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
+
+        // Store Data
+        final IntBuffer buffer = BufferUtils.createIntBuffer(indices.length);
+        buffer.put(indices);
+        buffer.flip();
+        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
     }
 
     public void clean() {

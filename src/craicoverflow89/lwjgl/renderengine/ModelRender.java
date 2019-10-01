@@ -9,8 +9,8 @@ public class ModelRender {
     public void prepare() {
 
         // Clear Colour
-        GL11.glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+        GL11.glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
     }
 
     public void render(RawModel model) {
@@ -22,7 +22,7 @@ public class ModelRender {
         GL20.glEnableVertexAttribArray(0);
 
         // Render Model
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertextCount());
+        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertextCount(), GL11.GL_UNSIGNED_INT, 0);
 
         // Unbind Attribute List
         GL20.glDisableVertexAttribArray(0);

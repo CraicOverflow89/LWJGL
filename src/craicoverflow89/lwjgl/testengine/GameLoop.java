@@ -18,7 +18,14 @@ public class GameLoop {
         final ModelRender renderer = new ModelRender();
 
         // Example Model
-        final RawModel model = loader.loadToVAO(exampleVertices());
+        final RawModel model = loader.loadToVAO(new float[] {
+            -0.5f, 0.5f, 0f,
+            -0.5f, -0.5f, 0f,
+            0.5f, -0.5f, 0f,
+            0.5f, 0.5f, 0f
+        }, new int[] {
+            0, 1, 3, 3, 1, 2
+        });
 
         // Game Running
         while(!Display.isCloseRequested()) {
@@ -40,17 +47,6 @@ public class GameLoop {
         // Close Display
         DisplayManager.closeDisplay();
 
-    }
-
-    private static float[] exampleVertices() {
-        return new float[] {
-            -0.5f, 0.5f, 0f,
-            -0.5f, -0.5f, 0f,
-            0.5f, -0.5f, 0f,
-            0.5f, -0.5f, 0f,
-            0.5f, 0.5f, 0f,
-            -0.5f, 0.5f, 0f
-        };
     }
 
 }
