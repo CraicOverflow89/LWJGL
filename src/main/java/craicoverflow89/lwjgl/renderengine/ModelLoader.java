@@ -2,7 +2,6 @@ package craicoverflow89.lwjgl.renderengine;
 
 import craicoverflow89.lwjgl.models.RawModel;
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-public class ModelLoader {
+public final class ModelLoader {
 
     private List<Integer> vaoList = new ArrayList();
     private List<Integer> vboList = new ArrayList();

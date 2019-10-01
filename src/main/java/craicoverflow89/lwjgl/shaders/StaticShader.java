@@ -12,16 +12,16 @@ public final class StaticShader extends AbstractShader {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
 
-    protected final void bindAttributes() {
+    protected void bindAttributes() {
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
     }
 
-    protected final void getUniformLocations() {
+    protected void getUniformLocations() {
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
     }
 
-    public final void loadTransformationMatrix(Matrix4f matrix) {
+    public void loadTransformationMatrix(Matrix4f matrix) {
         super.loadUniform(location_transformationMatrix, matrix);
     }
 

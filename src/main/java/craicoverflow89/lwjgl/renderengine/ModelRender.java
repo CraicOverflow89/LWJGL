@@ -1,13 +1,17 @@
 package craicoverflow89.lwjgl.renderengine;
 
+import craicoverflow89.lwjgl.entities.Entity;
+import craicoverflow89.lwjgl.helpers.Maths;
 import craicoverflow89.lwjgl.models.RawModel;
 import craicoverflow89.lwjgl.models.TexturedModel;
+import craicoverflow89.lwjgl.shaders.StaticShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
 
-public class ModelRender {
+public final class ModelRender {
 
     public void prepare() {
 
@@ -16,9 +20,10 @@ public class ModelRender {
         GL11.glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
     }
 
-    public void render(TexturedModel texturedModel) {
+    public void render(Entity entity, StaticShader shader) {
 
-        // Raw Model
+        // Fetch Models
+        final TexturedModel texturedModel = entity.getModel();
         final RawModel rawModel = texturedModel.getRawModel();
 
         // Bind VAO
@@ -27,6 +32,9 @@ public class ModelRender {
         // Enable Attributes
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
+
+        // Load Transform
+        shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale()));
 
         // Bind Texture
         GL13.glActiveTexture(GL13.GL_TEXTURE0);

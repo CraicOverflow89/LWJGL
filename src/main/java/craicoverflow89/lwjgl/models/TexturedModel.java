@@ -2,7 +2,7 @@ package craicoverflow89.lwjgl.models;
 
 import craicoverflow89.lwjgl.textures.ModelTexture;
 
-public class TexturedModel {
+public final class TexturedModel {
 
     private final RawModel model;
     private final ModelTexture texture;

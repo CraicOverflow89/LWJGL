@@ -1,6 +1,6 @@
 package craicoverflow89.lwjgl.models;
 
-public class RawModel {
+public final class RawModel {
 
     private int vaoID;
     private int vertextCount;

@@ -3,7 +3,7 @@ package craicoverflow89.lwjgl.renderengine;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.*;
 
-public class DisplayManager {
+public final class DisplayManager {
 
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;

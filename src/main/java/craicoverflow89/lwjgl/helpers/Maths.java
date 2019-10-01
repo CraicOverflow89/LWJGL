@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public final class Maths {
 
-    public static final Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale) {
+    public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale) {
 
         // Create Matrix
         final Matrix4f matrix = new Matrix4f();

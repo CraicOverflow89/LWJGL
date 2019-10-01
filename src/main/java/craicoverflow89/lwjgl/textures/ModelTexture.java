@@ -1,6 +1,6 @@
 package craicoverflow89.lwjgl.textures;
 
-public class ModelTexture {
+public final class ModelTexture {
 
     private int textureID;
 
