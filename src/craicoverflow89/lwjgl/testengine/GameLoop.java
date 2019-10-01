@@ -4,6 +4,7 @@ import craicoverflow89.lwjgl.renderengine.DisplayManager;
 import craicoverflow89.lwjgl.renderengine.ModelLoader;
 import craicoverflow89.lwjgl.renderengine.ModelRender;
 import craicoverflow89.lwjgl.renderengine.RawModel;
+import craicoverflow89.lwjgl.shaders.StaticShader;
 import org.lwjgl.opengl.Display;
 
 public class GameLoop {
@@ -16,6 +17,9 @@ public class GameLoop {
         // Model Logic
         final ModelLoader loader = new ModelLoader();
         final ModelRender renderer = new ModelRender();
+
+        // Shader Logic
+        final StaticShader shader = new StaticShader();
 
         // Example Model
         final RawModel model = loader.loadToVAO(new float[] {
@@ -37,12 +41,15 @@ public class GameLoop {
             //
 
             // Game Render
+            shader.start();
             renderer.render(model);
+            shader.stop();
             DisplayManager.updateDisplay();
         }
 
         // Delete Resources
         loader.clean();
+        shader.clean();
 
         // Close Display
         DisplayManager.closeDisplay();
