@@ -3,14 +3,20 @@ package craicoverflow89.lwjgl.shaders;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
+
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 public abstract class AbstractShader {
 
     private final int programID;
     private final int vertexShaderID;
     private final int fragmentShaderID;
+    private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 
     public AbstractShader(String vertextFile, String fragmentFile) {
 
@@ -25,21 +31,24 @@ public abstract class AbstractShader {
         GL20.glAttachShader(programID, vertexShaderID);
         GL20.glAttachShader(programID, fragmentShaderID);
 
+        // Bind Attributes
+        bindAttributes();
+
         // Link Program
         GL20.glLinkProgram(programID);
         GL20.glValidateProgram(programID);
 
-        // Bind Attributes
-        bindAttributes();
+        // Uniform Locations
+        getUniformLocations();
     }
 
-    protected void bindAttribute(int attributeNumber, String variableName) {
+    protected final void bindAttribute(int attributeNumber, String variableName) {
         GL20.glBindAttribLocation(programID, attributeNumber, variableName);
     }
 
     protected abstract void bindAttributes();
 
-    public void clean() {
+    public final void clean() {
 
         // Force Stop
         stop();
@@ -56,7 +65,13 @@ public abstract class AbstractShader {
         GL20.glDeleteProgram(programID);
     }
 
-    private static int loadShader(String file, int type) {
+    protected final int getUniformLocation(String uniformName) {
+        return GL20.glGetUniformLocation(programID, uniformName);
+    }
+
+    protected abstract void getUniformLocations();
+
+    private static final int loadShader(String file, int type) {
 
         // Create Source
         final StringBuilder source = new StringBuilder();
@@ -90,6 +105,24 @@ public abstract class AbstractShader {
 
         // Return ID
         return shaderID;
+    }
+
+    protected final void loadUniform(int location, boolean value) {
+        GL20.glUniform1f(location, value ? 1f : 0f);
+    }
+
+    protected final void loadUniform(int location, float value) {
+        GL20.glUniform1f(location, value);
+    }
+
+    protected final void loadUniform(int location, Matrix4f value) {
+        value.store(matrixBuffer);
+        matrixBuffer.flip();
+        GL20.glUniformMatrix4(location, false, matrixBuffer);
+    }
+
+    protected final void loadUniform(int location, Vector3f value) {
+        GL20.glUniform3f(location, value.x, value.y, value.z);
     }
 
     public final void start() {

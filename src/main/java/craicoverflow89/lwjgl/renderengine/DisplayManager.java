@@ -17,15 +17,13 @@ public class DisplayManager {
 
     public static void createDisplay() {
 
-        // Context Attributes
-        final ContextAttribs contextAttribs = new ContextAttribs(3, 2);
-        contextAttribs.withForwardCompatible(true);
-        contextAttribs.withProfileCore(true);
-
         // Display Setup
         try {
             Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
-            Display.create(new PixelFormat(), contextAttribs);
+            Display.create(new PixelFormat(), new ContextAttribs(3, 2)
+                .withForwardCompatible(true)
+                .withProfileCore(true)
+            );
             Display.setTitle("LWJGL");
         }
         catch(LWJGLException ex) {ex.printStackTrace();}
