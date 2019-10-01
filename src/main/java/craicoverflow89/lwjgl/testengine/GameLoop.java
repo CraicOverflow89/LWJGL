@@ -24,12 +24,14 @@ public class GameLoop {
 
         // Example Model
         final TexturedModel texturedModel = new TexturedModel(loader.loadToVAO(new float[] {
-                -0.5f, 0.5f, 0f,
-                -0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f, 0f
+            -0.5f, 0.5f, 0f,
+            -0.5f, -0.5f, 0f,
+            0.5f, -0.5f, 0f,
+            0.5f, 0.5f, 0f
+        }, new float[] {
+            0, 0, 0, 1, 1, 1, 1, 0
         }, new int[] {
-                0, 1, 3, 3, 1, 2
+            0, 1, 3, 3, 1, 2
         }), new ModelTexture(loader.loadTexture("test/image")));
 
         // Game Running

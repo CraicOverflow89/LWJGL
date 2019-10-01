@@ -21,23 +21,7 @@ public class ModelLoader {
     private List<Integer> vboList = new ArrayList();
     private List<Integer> textureList = new ArrayList();
 
-    public RawModel loadToVAO(float[] positions, int[] indicies) {
-
-        // Create VAO
-        final int vaoID = createVAO();
-
-        // Bind Indices
-        bindIndiciesBuffer(indicies);
-
-        // Store Data
-        storeData(0, positions);
-        unbindVAO();
-
-        // Create Model
-        return new RawModel(vaoID, indicies.length);
-    }
-
-    private void bindIndiciesBuffer(int[] indices) {
+    private void bindIndicesBuffer(int[] indices) {
 
         // Create VBO
         final int vboID = GL15.glGenBuffers();
@@ -95,7 +79,24 @@ public class ModelLoader {
         return textureID;
     }
 
-    private void storeData(int attributeNumber, float[] data) {
+    public RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
+
+        // Create VAO
+        final int vaoID = createVAO();
+
+        // Bind Indices
+        bindIndicesBuffer(indices);
+
+        // Store Data
+        storeData(0, 3, positions);
+        storeData(1, 2, textureCoords);
+        unbindVAO();
+
+        // Create Model
+        return new RawModel(vaoID, indices.length);
+    }
+
+    private void storeData(int attributeNumber, int size, float[] data) {
 
         // Create VBO
         final int vboID = GL15.glGenBuffers();
@@ -111,7 +112,7 @@ public class ModelLoader {
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 
         // Store VBO
-        GL20.glVertexAttribPointer(attributeNumber, 3, GL11.GL_FLOAT, false, 0, 0);
+        GL20.glVertexAttribPointer(attributeNumber, size, GL11.GL_FLOAT, false, 0, 0);
 
         // Unbind VBO
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
