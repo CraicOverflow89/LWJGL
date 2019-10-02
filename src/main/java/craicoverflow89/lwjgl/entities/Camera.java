@@ -40,16 +40,16 @@ public final class Camera {
     public void move() {
 
         // Move Forward
-        if(Keyboard.isKeyDown(Keyboard.KEY_W)) position.z -= 0.02f;
+        if(Keyboard.isKeyDown(Keyboard.KEY_W)) position.z -= 0.1f;
 
         // Move Backward
-        if(Keyboard.isKeyDown(Keyboard.KEY_S)) position.z += 0.02f;
+        if(Keyboard.isKeyDown(Keyboard.KEY_S)) position.z += 0.1f;
 
         // Move Left
-        if(Keyboard.isKeyDown(Keyboard.KEY_A)) position.x -= 0.02f;
+        if(Keyboard.isKeyDown(Keyboard.KEY_A)) position.x -= 0.1f;
 
         // Move Right
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)) position.x += 0.02f;
+        if(Keyboard.isKeyDown(Keyboard.KEY_D)) position.x += 0.1f;
     }
 
 }
