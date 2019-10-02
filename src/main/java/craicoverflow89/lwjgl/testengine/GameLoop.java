@@ -28,7 +28,7 @@ public final class GameLoop {
         final Light light = new Light(new Vector3f(0f, 10f, 0f), new Vector3f(1f, 1f, 1f));
 
         // Create Camera
-        final Camera camera = new Camera(new Vector3f(0, 2f, 0));
+        final Camera camera = new Camera(new Vector3f(0f, 2f, 25f));
 
         // Example Entity
         final List<Entity> entityList = testEntity(loader);
@@ -76,7 +76,7 @@ public final class GameLoop {
         textureTemp.setReflectivity(1);
 
         // Example Content
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTemp), new Vector3f(0, 0, -50f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTemp), new Vector3f(0, 0, 0f), 0, 0, 0, 1));
 
         // Return Entities
         return entityList;
