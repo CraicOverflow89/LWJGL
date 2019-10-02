@@ -2,10 +2,10 @@ package craicoverflow89.lwjgl.renderengine;
 
 import craicoverflow89.lwjgl.helpers.Maths;
 import craicoverflow89.lwjgl.models.RawModel;
-import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.shaders.TerrainShader;
 import craicoverflow89.lwjgl.terrain.Terrain;
-import craicoverflow89.lwjgl.textures.ModelTexture;
+import craicoverflow89.lwjgl.textures.TerrainTexture;
+import craicoverflow89.lwjgl.textures.TerrainTexturePack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -23,9 +23,10 @@ public final class TerrainRenderer {
         // Store Shader
         this.shader = shader;
 
-        // Load Projection
+        // Load Data
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
+        shader.loadTextureUnits();
         shader.stop();
     }
 
@@ -46,11 +47,28 @@ public final class TerrainRenderer {
         }
     }
 
+    private void renderTerrainBind(Terrain terrain) {
+
+        // Texture Pack
+        final TerrainTexturePack texturePack = terrain.getTexturePack();
+
+        // Bind Textures
+        renderTerrainBindTexture(GL13.GL_TEXTURE0, texturePack.getTextureBackground());
+        renderTerrainBindTexture(GL13.GL_TEXTURE1, texturePack.getTextureColourR());
+        renderTerrainBindTexture(GL13.GL_TEXTURE2, texturePack.getTextureColourG());
+        renderTerrainBindTexture(GL13.GL_TEXTURE3, texturePack.getTextureColourB());
+        renderTerrainBindTexture(GL13.GL_TEXTURE4, terrain.getBlendMap());
+    }
+
+    private void renderTerrainBindTexture(int active, TerrainTexture texture) {
+        GL13.glActiveTexture(active);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+    }
+
     private void renderTerrainPrepare(Terrain terrain) {
 
         // Fetch Model
         final RawModel rawModel = terrain.getRawModel();
-        final ModelTexture texture = terrain.getTexture();
 
         // Bind VAO
         GL30.glBindVertexArray(rawModel.getVaoID());
@@ -59,13 +77,10 @@ public final class TerrainRenderer {
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
+        renderTerrainBind(terrain);
 
         // Shine Values
-        shader.loadShine(texture.getShineDamper(), texture.getReflectivity());
-
-        // Bind Texture
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
+        shader.loadShine(1.0f, 0.0f);
     }
 
     private void renderTerrainUnbind() {

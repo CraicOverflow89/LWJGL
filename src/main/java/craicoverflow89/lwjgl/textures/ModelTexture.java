@@ -1,19 +1,14 @@
 package craicoverflow89.lwjgl.textures;
 
-public final class ModelTexture {
+public final class ModelTexture extends AbstractTexture {
 
-    private int textureID;
     private float shineDamper = 1;
     private float reflectivity = 0;
     private boolean hasTransparency = false;
     private boolean hasFakeLighting = false;
 
     public ModelTexture(int textureID) {
-        this.textureID = textureID;
-    }
-
-    public int getID() {
-        return textureID;
+        super(textureID);
     }
 
     public float getReflectivity() {

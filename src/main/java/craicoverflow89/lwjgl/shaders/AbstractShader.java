@@ -111,6 +111,10 @@ public abstract class AbstractShader {
         GL20.glUniform1f(location, value ? 1f : 0f);
     }
 
+    protected final void loadUniform(int location, int value) {
+        GL20.glUniform1i(location, value);
+    }
+
     protected final void loadUniform(int location, float value) {
         GL20.glUniform1f(location, value);
     }

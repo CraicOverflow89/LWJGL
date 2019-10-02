@@ -106,8 +106,8 @@ public final class GameLoop {
         // Create Terrain
         final List<Terrain> terrainList = new ArrayList();
 
-        // Example Texture
-        final ModelTexture textureGrass = new ModelTexture(loader.loadTexture("grass"));
+        // Example Textures
+        final ModelTexture textureGrass = new ModelTexture(loader.loadTexture("terrain/grass"));
 
         // Example Content
         terrainList.add(new Terrain(0, -1, loader, textureGrass));

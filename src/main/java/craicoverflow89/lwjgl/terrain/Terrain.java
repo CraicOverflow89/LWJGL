@@ -2,7 +2,8 @@ package craicoverflow89.lwjgl.terrain;
 
 import craicoverflow89.lwjgl.models.RawModel;
 import craicoverflow89.lwjgl.renderengine.ModelLoader;
-import craicoverflow89.lwjgl.textures.ModelTexture;
+import craicoverflow89.lwjgl.textures.TerrainTexture;
+import craicoverflow89.lwjgl.textures.TerrainTexturePack;
 import org.lwjgl.util.vector.Vector3f;
 
 public final class Terrain {
@@ -11,13 +12,15 @@ public final class Terrain {
     private static final int VERTEX_COUNT = 128;
     private final float posX, posZ;
     private final RawModel model;
-    private final ModelTexture texture;
+    private final TerrainTexturePack texturePack;
+    private final TerrainTexture blendMap;
 
-    public Terrain(int gridX, int gridZ, ModelLoader loader, ModelTexture texture) {
+    public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap) {
         this.posX = gridX * SIZE;
         this.posZ = gridZ * SIZE;
         this.model = generateTerrain(loader);
-        this.texture = texture;
+        this.texturePack = texturePack;
+        this.blendMap = blendMap;
     }
 
     private RawModel generateTerrain(ModelLoader loader) {
@@ -64,6 +67,10 @@ public final class Terrain {
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
+    public TerrainTexture getBlendMap() {
+        return blendMap;
+    }
+
     public Vector3f getPosition() {
         return new Vector3f(posX, 0, posZ);
     }
@@ -80,8 +87,8 @@ public final class Terrain {
         return model;
     }
 
-    public ModelTexture getTexture() {
-        return texture;
+    public TerrainTexturePack getTexturePack() {
+        return texturePack;
     }
 
 }
