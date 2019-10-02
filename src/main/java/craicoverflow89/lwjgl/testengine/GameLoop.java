@@ -70,13 +70,23 @@ public final class GameLoop {
         // Create Entities
         final List<Entity> entityList = new ArrayList();
 
-        // Example Texture
+        // Example Texture 1
         final ModelTexture textureTemp = new ModelTexture(loader.loadTexture("temp"));
         textureTemp.setShineDamper(10);
         textureTemp.setReflectivity(1);
 
+        // Example Texture 2
+        final ModelTexture textureFern = new ModelTexture(loader.loadTexture("fern"));
+        textureFern.setShineDamper(10);
+        textureFern.setReflectivity(1);
+        textureFern.hasTransparency(true);
+        textureFern.hasFakeLighting(true);
+
         // Example Content
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTemp), new Vector3f(0, 0, 0f), 0, 0, 0, 1));
+        //entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTemp), new Vector3f(0, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(0, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(25, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(50, 0, 0f), 0, 0, 0, 1));
 
         // Return Entities
         return entityList;

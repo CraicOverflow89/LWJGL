@@ -31,8 +31,7 @@ public final class MasterRenderer {
     public MasterRenderer() {
 
         // Ignore Faces
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
+        setCulling(true);
 
         // Renderer Creation
         final Matrix4f projectionMatrix = createProjectionMatrix();
@@ -139,6 +138,14 @@ public final class MasterRenderer {
         // Render Done
         shaderTerrain.stop();
         terrainList.clear();
+    }
+
+    public static void setCulling(Boolean active) {
+        if(active) {
+            GL11.glEnable(GL11.GL_CULL_FACE);
+            GL11.glCullFace(GL11.GL_BACK);
+        }
+        else GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
 }
