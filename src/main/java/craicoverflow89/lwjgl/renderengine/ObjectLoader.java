@@ -108,8 +108,8 @@ public final class ObjectLoader {
             }
 
             // Indice Result
-            final int[] indiceArray = new int[indiceList.size() * 2];
-            for(int indice : indiceList) indiceArray[indice] = indiceList.get(indice);
+            final int[] indiceArray = new int[indiceList.size()];
+            for(pos = 0; pos < indiceList.size(); pos ++) indiceArray[pos] = indiceList.get(pos);
 
             // Model Result
             model = loader.loadToVAO(vertexArray, textureArray, indiceArray);
@@ -126,21 +126,21 @@ public final class ObjectLoader {
         return model;
     }
 
-    private static void processFace(String[] data, List<Vector2f> textureList, List<Vector3f> normalList, List<Integer> indiceList, float[] textureArray, float[] normalArray) {
+    private static void processFace(String[] data, List<Vector2f> textures, List<Vector3f> normals, List<Integer> indices, float[] textureArray, float[] normalArray) {
 
         // Vertex Position
         final int pos = Integer.parseInt(data[0]) - 1;
 
         // Append Indice
-        indiceList.add(pos);
+        indices.add(pos);
 
         // Texture Data
-        final Vector2f texture = textureList.get(Integer.parseInt(data[1]) - 1);
+        final Vector2f texture = textures.get(Integer.parseInt(data[1]) - 1);
         textureArray[pos * 2] = texture.x;
         textureArray[pos * 2 + 1] = 1 - texture.y;
 
         // Normal Data
-        final Vector3f normal = normalList.get(Integer.parseInt(data[2]) - 1);
+        final Vector3f normal = normals.get(Integer.parseInt(data[2]) - 1);
         normalArray[pos * 3] = normal.x;
         normalArray[pos * 3 + 1] = normal.y;
         normalArray[pos * 3 + 2] = normal.z;

@@ -35,7 +35,7 @@ public final class GameLoop {
 
             // Test Transformation
             //entity.move(0f, 0f, -0.05f);
-            //entity.rotate(1f, 1f, 0f);
+            entity.rotate(0f, 1f, 0f);
 
             // Camera Movement
             camera.move();
@@ -60,7 +60,7 @@ public final class GameLoop {
     }
 
     private static Entity testEntity(ModelLoader loader) {
-        return new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), new ModelTexture(loader.loadTexture("temp"))), new Vector3f(0, 0, -5), 0, 0, 0, 1);
+        return new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), new ModelTexture(loader.loadTexture("temp"))), new Vector3f(0, 0, -50), 0, 0, 0, 1);
     }
 
 }
