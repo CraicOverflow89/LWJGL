@@ -6,63 +6,54 @@ import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.helpers.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 
+import java.util.List;
+
 public final class StaticShader extends AbstractShader {
 
     private static final String VERTEX_FILE = "vertexShaderStatic";
     private static final String FRAGMENT_FILE = "fragmentShaderStatic";
-    private int location_transformationMatrix, location_projectionMatrix, location_viewMatrix, location_lightPosition;
-    private int location_lightColour, location_shineDamper, location_reflectivity, location_lightFake, location_skyColour;
 
     public StaticShader() {
-        super(VERTEX_FILE, FRAGMENT_FILE);
+        super(VERTEX_FILE, FRAGMENT_FILE, List.of(
+            "transformationMatrix", "projectionMatrix", "viewMatrix", "lightPosition",
+            "lightColour", "shineDamper", "reflectivity", "lightFake", "skyColour"
+        ));
     }
 
     protected void bindAttributes() {
-        super.bindAttribute(0, "position");
-        super.bindAttribute(1, "textureCoords");
-        super.bindAttribute(2, "normal");
-    }
-
-    protected void getUniformLocations() {
-        location_transformationMatrix = super.getUniformLocation("transformationMatrix");
-        location_projectionMatrix = super.getUniformLocation("projectionMatrix");
-        location_viewMatrix = super.getUniformLocation("viewMatrix");
-        location_lightPosition = super.getUniformLocation("lightPosition");
-        location_lightColour = super.getUniformLocation("lightColour");
-        location_shineDamper = super.getUniformLocation("shineDamper");
-        location_reflectivity = super.getUniformLocation("reflectivity");
-        location_lightFake = super.getUniformLocation("lightFake");
-        location_skyColour = super.getUniformLocation("skyColour");
+        bindAttribute(0, "position");
+        bindAttribute(1, "textureCoords");
+        bindAttribute(2, "normal");
     }
 
     public void loadLight(Light light) {
-        super.loadUniform(location_lightPosition, light.getPosition());
-        super.loadUniform(location_lightColour, light.getColour());
+        loadUniform("lightPosition", light.getPosition());
+        loadUniform("lightColour", light.getColour());
     }
 
     public void loadLightFake(Boolean lightFake) {
-        super.loadUniform(location_lightFake, lightFake);
+        loadUniform("lightFake", lightFake);
     }
 
     public void loadProjectionMatrix(Matrix4f projection) {
-        super.loadUniform(location_projectionMatrix, projection);
+        loadUniform("projectionMatrix", projection);
     }
 
     public void loadShine(float shineDamper, float reflectivity) {
-        super.loadUniform(location_shineDamper, shineDamper);
-        super.loadUniform(location_reflectivity, reflectivity);
+        loadUniform("shineDamper", shineDamper);
+        loadUniform("reflectivity", reflectivity);
     }
 
     public void loadSkyColour(Colour skyColour) {
-        super.loadUniform(location_skyColour, skyColour.asVector3f());
+        loadUniform("skyColour", skyColour.asVector3f());
     }
 
     public void loadTransformationMatrix(Matrix4f transformation) {
-        super.loadUniform(location_transformationMatrix, transformation);
+        loadUniform("transformationMatrix", transformation);
     }
 
     public void loadViewMatrix(Camera camera) {
-        super.loadUniform(location_viewMatrix, Maths.createViewMatrix(camera));
+        super.loadUniform("viewMatrix", Maths.createViewMatrix(camera));
     }
 
 }

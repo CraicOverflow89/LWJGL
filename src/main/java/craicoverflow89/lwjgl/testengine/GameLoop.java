@@ -9,6 +9,9 @@ import craicoverflow89.lwjgl.terrain.Terrain;
 import craicoverflow89.lwjgl.textures.ModelTexture;
 import java.util.ArrayList;
 import java.util.List;
+
+import craicoverflow89.lwjgl.textures.TerrainTexture;
+import craicoverflow89.lwjgl.textures.TerrainTexturePack;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -107,11 +110,16 @@ public final class GameLoop {
         final List<Terrain> terrainList = new ArrayList();
 
         // Example Textures
-        final ModelTexture textureGrass = new ModelTexture(loader.loadTexture("terrain/grass"));
+        final TerrainTexture textureGrass = new TerrainTexture(loader.loadTexture("terrain/grass"));
+        final TerrainTexture textureDirt = new TerrainTexture(loader.loadTexture("terrain/dirt"));
+        final TerrainTexture textureMeadow = new TerrainTexture(loader.loadTexture("terrain/meadow"));
+        final TerrainTexture texturePath = new TerrainTexture(loader.loadTexture("terrain/path"));
+        final TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("terrain/blend/test"));
+        final TerrainTexturePack texturePack = new TerrainTexturePack(textureGrass, textureDirt, textureMeadow, texturePath);
 
         // Example Content
-        terrainList.add(new Terrain(0, -1, loader, textureGrass));
-        terrainList.add(new Terrain(1, -1, loader, textureGrass));
+        terrainList.add(new Terrain(0, -1, loader, texturePack, blendMap));
+        terrainList.add(new Terrain(1, -1, loader, texturePack, blendMap));
 
         // Return Terrain
         return terrainList;

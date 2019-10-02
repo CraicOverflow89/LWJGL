@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -17,8 +19,13 @@ public abstract class AbstractShader {
     private final int vertexShaderID;
     private final int fragmentShaderID;
     private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
+    private final List<String> uniformList;
+    protected final HashMap<String, Integer> uniformMap = new HashMap();
 
-    public AbstractShader(String vertextFile, String fragmentFile) {
+    public AbstractShader(String vertextFile, String fragmentFile, List<String> uniformList) {
+
+        // Store List
+        this.uniformList = uniformList;
 
         // Load Shaders
         vertexShaderID = loadShader(vertextFile, GL20.GL_VERTEX_SHADER);
@@ -65,11 +72,27 @@ public abstract class AbstractShader {
         GL20.glDeleteProgram(programID);
     }
 
+    private final int getUniformData(String uniform) {
+        int result = 0;
+        try {result = uniformMap.get(uniform);}
+        catch(NullPointerException ex) {
+            System.err.println("Could not find uniform with name " + uniform + "!");
+            System.err.println("    " + uniformMap.keySet());
+            System.err.println();
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+        return result;
+    }
+
     protected final int getUniformLocation(String uniformName) {
         return GL20.glGetUniformLocation(programID, uniformName);
     }
 
-    protected abstract void getUniformLocations();
+    private final void getUniformLocations() {
+        uniformMap.clear();
+        for(String uniform : uniformList) uniformMap.put(uniform, getUniformLocation(uniform));
+    }
 
     private static final int loadShader(String file, int type) {
 
@@ -107,26 +130,26 @@ public abstract class AbstractShader {
         return shaderID;
     }
 
-    protected final void loadUniform(int location, boolean value) {
-        GL20.glUniform1f(location, value ? 1f : 0f);
+    protected final void loadUniform(String uniform, boolean value) {
+        GL20.glUniform1f(getUniformData(uniform), value ? 1f : 0f);
     }
 
-    protected final void loadUniform(int location, int value) {
-        GL20.glUniform1i(location, value);
+    protected final void loadUniform(String uniform, int value) {
+        GL20.glUniform1i(getUniformData(uniform), value);
     }
 
-    protected final void loadUniform(int location, float value) {
-        GL20.glUniform1f(location, value);
+    protected final void loadUniform(String uniform, float value) {
+        GL20.glUniform1f(getUniformData(uniform), value);
     }
 
-    protected final void loadUniform(int location, Matrix4f value) {
+    protected final void loadUniform(String uniform, Matrix4f value) {
         value.store(matrixBuffer);
         matrixBuffer.flip();
-        GL20.glUniformMatrix4(location, false, matrixBuffer);
+        GL20.glUniformMatrix4(getUniformData(uniform), false, matrixBuffer);
     }
 
-    protected final void loadUniform(int location, Vector3f value) {
-        GL20.glUniform3f(location, value.x, value.y, value.z);
+    protected final void loadUniform(String uniform, Vector3f value) {
+        GL20.glUniform3f(getUniformData(uniform), value.x, value.y, value.z);
     }
 
     public final void start() {
