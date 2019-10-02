@@ -9,13 +9,24 @@ import craicoverflow89.lwjgl.textures.ModelTexture;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Matrix4f;
 
+import java.util.List;
+import java.util.Map;
+
 public final class ModelRender {
 
     private static final float FIELD_OF_VIEW = 70f;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
+    private final StaticShader shader;
 
     public ModelRender(StaticShader shader) {
+
+        // Store Shader
+        this.shader = shader;
+
+        // Ignore Faces
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
 
         // Load Projection
         shader.start();
@@ -56,12 +67,34 @@ public final class ModelRender {
         GL11.glClearColor(0.471f, 0.745f, 0.235f, 1f);
     }
 
-    public void render(Entity entity, StaticShader shader) {
+    public void render(Map<TexturedModel, List<Entity>> entityMap) {
 
-        // Fetch Models
-        final TexturedModel texturedModel = entity.getModel();
-        final RawModel rawModel = texturedModel.getRawModel();
-        final ModelTexture texture = texturedModel.getTexture();
+        // Iterate Models
+        for(TexturedModel model : entityMap.keySet()) {
+
+            // Prepare Model
+            renderModelPrepare(model);
+
+            // Iterate Entities
+            for(Entity entity : entityMap.get(model)) {
+
+                // Prepare Entity
+                shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale()));
+
+                // Render Entity
+                GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertextCount(), GL11.GL_UNSIGNED_INT, 0);
+            }
+
+            // Unbind Model
+            renderModelUnbind();
+        }
+    }
+
+    private void renderModelPrepare(TexturedModel model) {
+
+        // Fetch Model
+        final RawModel rawModel = model.getRawModel();
+        final ModelTexture texture = model.getTexture();
 
         // Bind VAO
         GL30.glBindVertexArray(rawModel.getVaoID());
@@ -71,18 +104,15 @@ public final class ModelRender {
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
 
-        // Load Transform
-        shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale()));
-
         // Shine Values
         shader.loadShine(texture.getShineDamper(), texture.getReflectivity());
 
         // Bind Texture
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
+    }
 
-        // Render Model
-        GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertextCount(), GL11.GL_UNSIGNED_INT, 0);
+    private void renderModelUnbind() {
 
         // Disable Attributes
         GL20.glDisableVertexAttribArray(0);

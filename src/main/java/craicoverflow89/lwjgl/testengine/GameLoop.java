@@ -4,11 +4,7 @@ import craicoverflow89.lwjgl.entities.Camera;
 import craicoverflow89.lwjgl.entities.Entity;
 import craicoverflow89.lwjgl.entities.Light;
 import craicoverflow89.lwjgl.models.TexturedModel;
-import craicoverflow89.lwjgl.renderengine.DisplayManager;
-import craicoverflow89.lwjgl.renderengine.ModelLoader;
-import craicoverflow89.lwjgl.renderengine.ModelRender;
-import craicoverflow89.lwjgl.renderengine.ObjectLoader;
-import craicoverflow89.lwjgl.shaders.StaticShader;
+import craicoverflow89.lwjgl.renderengine.*;
 import craicoverflow89.lwjgl.textures.ModelTexture;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -22,8 +18,7 @@ public final class GameLoop {
 
         // Create Logic
         final ModelLoader loader = new ModelLoader();
-        final StaticShader shader = new StaticShader();
-        final ModelRender renderer = new ModelRender(shader);
+        final MasterRender renderer = new MasterRender();
 
         // Create Light
         final Light light = new Light(new Vector3f(-20f, 30f, -25f), new Vector3f(1f, 1f, 1f));
@@ -39,26 +34,20 @@ public final class GameLoop {
 
             // Test Transformation
             //entity.move(0f, 0f, -0.05f);
-            entity.rotate(0f, 1f, 0f);
+            //entity.rotate(0f, 1f, 0f);
 
             // Camera Movement
             camera.move();
 
-            // Prepare Renderer
-            renderer.prepare();
-
             // Game Render
-            shader.start();
-            shader.loadViewMatrix(camera);
-            shader.loadLight(light);
-            renderer.render(entity, shader);
-            shader.stop();
+            renderer.addEntity(entity);
+            renderer.render(light, camera);
             DisplayManager.updateDisplay();
         }
 
         // Delete Resources
+        renderer.clean();
         loader.clean();
-        shader.clean();
 
         // Close Display
         DisplayManager.closeDisplay();
