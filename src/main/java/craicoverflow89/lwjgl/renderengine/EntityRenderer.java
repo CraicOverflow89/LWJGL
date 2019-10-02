@@ -12,59 +12,19 @@ import org.lwjgl.util.vector.Matrix4f;
 import java.util.List;
 import java.util.Map;
 
-public final class ModelRender {
+public final class EntityRenderer {
 
-    private static final float FIELD_OF_VIEW = 70f;
-    private static final float NEAR_PLANE = 0.1f;
-    private static final float FAR_PLANE = 1000f;
     private final StaticShader shader;
 
-    public ModelRender(StaticShader shader) {
+    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
 
         // Store Shader
         this.shader = shader;
 
-        // Ignore Faces
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
-
         // Load Projection
         shader.start();
-        shader.loadProjectionMatrix(createProjectionMatrix());
+        shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
-    }
-
-    private Matrix4f createProjectionMatrix() {
-
-        // Fetch Values
-        final float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-        final float scaleY = (float) (1f / Math.tan(Math.toRadians(FIELD_OF_VIEW / 2f))) * aspectRatio;
-        final float scaleX = scaleY / aspectRatio;
-        final float frustumLength = FAR_PLANE - NEAR_PLANE;
-
-        // Create Matrix
-        final Matrix4f matrix = new Matrix4f();
-        matrix.m00 = scaleX;
-        matrix.m11 = scaleY;
-        matrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustumLength);
-        matrix.m23 = -1;
-        matrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustumLength);
-        matrix.m33 = 0;
-
-        // Return Matrix
-        return matrix;
-    }
-
-    public void prepare() {
-
-        // Depth Order
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-
-        // Clear Buffers
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
-        // Background Colour
-        GL11.glClearColor(0.471f, 0.745f, 0.235f, 1f);
     }
 
     public void render(Map<TexturedModel, List<Entity>> entityMap) {
@@ -109,7 +69,7 @@ public final class ModelRender {
 
         // Bind Texture
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
     }
 
     private void renderModelUnbind() {

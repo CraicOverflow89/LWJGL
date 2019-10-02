@@ -5,9 +5,13 @@ import craicoverflow89.lwjgl.entities.Entity;
 import craicoverflow89.lwjgl.entities.Light;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
+import craicoverflow89.lwjgl.terrain.Terrain;
 import craicoverflow89.lwjgl.textures.ModelTexture;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class GameLoop {
 
@@ -18,16 +22,19 @@ public final class GameLoop {
 
         // Create Logic
         final ModelLoader loader = new ModelLoader();
-        final MasterRender renderer = new MasterRender();
+        final MasterRenderer renderer = new MasterRenderer();
 
         // Create Light
-        final Light light = new Light(new Vector3f(-20f, 30f, -25f), new Vector3f(1f, 1f, 1f));
+        final Light light = new Light(new Vector3f(0f, 10f, 0f), new Vector3f(1f, 1f, 1f));
 
         // Create Camera
-        final Camera camera = new Camera();
+        final Camera camera = new Camera(new Vector3f(0, 2f, 0));
 
         // Example Entity
-        final Entity entity = testEntity(loader);
+        final List<Entity> entityList = testEntity(loader);
+
+        // Example Terrain
+        final List<Terrain> terrainList = testTerrain(loader);
 
         // Game Running
         while(!Display.isCloseRequested()) {
@@ -39,8 +46,13 @@ public final class GameLoop {
             // Camera Movement
             camera.move();
 
-            // Game Render
-            renderer.addEntity(entity);
+            // Load Entities
+            for(Entity entity : entityList) renderer.addEntity(entity);
+
+            // Load Terrain
+            for(Terrain terrain : terrainList) renderer.addTerrain(terrain);
+
+            // Render Game
             renderer.render(light, camera);
             DisplayManager.updateDisplay();
         }
@@ -53,11 +65,37 @@ public final class GameLoop {
         DisplayManager.closeDisplay();
     }
 
-    private static Entity testEntity(ModelLoader loader) {
-        final ModelTexture texture = new ModelTexture(loader.loadTexture("temp"));
-        texture.setShineDamper(10);
-        texture.setReflectivity(1);
-        return new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), texture), new Vector3f(0, 0, -25), 0, 0, 0, 1);
+    private static List<Entity> testEntity(ModelLoader loader) {
+
+        // Create Entities
+        final List<Entity> entityList = new ArrayList();
+
+        // Example Texture
+        final ModelTexture textureTemp = new ModelTexture(loader.loadTexture("temp"));
+        textureTemp.setShineDamper(10);
+        textureTemp.setReflectivity(1);
+
+        // Example Content
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTemp), new Vector3f(0, 0, -50f), 0, 0, 0, 1));
+
+        // Return Entities
+        return entityList;
+    }
+
+    private static List<Terrain> testTerrain(ModelLoader loader) {
+
+        // Create Terrain
+        final List<Terrain> terrainList = new ArrayList();
+
+        // Example Texture
+        final ModelTexture textureGrass = new ModelTexture(loader.loadTexture("grass"));
+
+        // Example Content
+        terrainList.add(new Terrain(0, -1, loader, textureGrass));
+        terrainList.add(new Terrain(1, -1, loader, textureGrass));
+
+        // Return Terrain
+        return terrainList;
     }
 
 }

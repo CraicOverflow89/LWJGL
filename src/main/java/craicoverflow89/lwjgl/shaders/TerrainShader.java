@@ -5,14 +5,14 @@ import craicoverflow89.lwjgl.entities.Light;
 import craicoverflow89.lwjgl.helpers.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 
-public final class StaticShader extends AbstractShader {
+public final class TerrainShader extends AbstractShader {
 
-    private static final String VERTEX_FILE = "vertexShaderStatic";
-    private static final String FRAGMENT_FILE = "fragmentShaderStatic";
+    private static final String VERTEX_FILE = "vertexShaderTerrain";
+    private static final String FRAGMENT_FILE = "fragmentShaderTerrain";
     private int location_transformationMatrix, location_projectionMatrix, location_viewMatrix;
     private int location_lightPosition, location_lightColour, location_shineDamper, location_reflectivity;
 
-    public StaticShader() {
+    public TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
 
