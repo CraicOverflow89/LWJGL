@@ -82,7 +82,7 @@ public final class ModelLoader {
         return textureID;
     }
 
-    public RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
+    public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
 
         // Create VAO
         final int vaoID = createVAO();
@@ -93,6 +93,7 @@ public final class ModelLoader {
         // Store Data
         storeData(0, 3, positions);
         storeData(1, 2, textureCoords);
+        storeData(2, 3, normals);
         unbindVAO();
 
         // Create Model

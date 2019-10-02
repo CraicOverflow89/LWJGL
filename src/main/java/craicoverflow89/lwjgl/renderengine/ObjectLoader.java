@@ -112,7 +112,7 @@ public final class ObjectLoader {
             for(pos = 0; pos < indiceList.size(); pos ++) indiceArray[pos] = indiceList.get(pos);
 
             // Model Result
-            model = loader.loadToVAO(vertexArray, textureArray, indiceArray);
+            model = loader.loadToVAO(vertexArray, textureArray, normalArray, indiceArray);
         }
 
         // Object Error

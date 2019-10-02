@@ -67,6 +67,7 @@ public final class ModelRender {
         // Enable Attributes
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
+        GL20.glEnableVertexAttribArray(2);
 
         // Load Transform
         shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale()));
@@ -81,6 +82,7 @@ public final class ModelRender {
         // Disable Attributes
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
+        GL20.glDisableVertexAttribArray(2);
 
         // Unbind VAO
         GL30.glBindVertexArray(0);
