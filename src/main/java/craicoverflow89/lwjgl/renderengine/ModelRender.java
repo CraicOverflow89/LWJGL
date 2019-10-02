@@ -5,6 +5,7 @@ import craicoverflow89.lwjgl.helpers.Maths;
 import craicoverflow89.lwjgl.models.RawModel;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.shaders.StaticShader;
+import craicoverflow89.lwjgl.textures.ModelTexture;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Matrix4f;
 
@@ -60,6 +61,7 @@ public final class ModelRender {
         // Fetch Models
         final TexturedModel texturedModel = entity.getModel();
         final RawModel rawModel = texturedModel.getRawModel();
+        final ModelTexture texture = texturedModel.getTexture();
 
         // Bind VAO
         GL30.glBindVertexArray(rawModel.getVaoID());
@@ -71,6 +73,9 @@ public final class ModelRender {
 
         // Load Transform
         shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale()));
+
+        // Shine Values
+        shader.loadShine(texture.getShineDamper(), texture.getReflectivity());
 
         // Bind Texture
         GL13.glActiveTexture(GL13.GL_TEXTURE0);

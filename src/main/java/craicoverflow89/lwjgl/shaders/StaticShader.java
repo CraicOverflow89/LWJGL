@@ -9,7 +9,8 @@ public final class StaticShader extends AbstractShader {
 
     private static final String VERTEX_FILE = "vertexShader";
     private static final String FRAGMENT_FILE = "fragmentShader";
-    private int location_transformationMatrix, location_projectionMatrix, location_viewMatrix, location_lightPosition, location_lightColour;
+    private int location_transformationMatrix, location_projectionMatrix, location_viewMatrix;
+    private int location_lightPosition, location_lightColour, location_shineDamper, location_reflectivity;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -27,6 +28,8 @@ public final class StaticShader extends AbstractShader {
         location_viewMatrix = super.getUniformLocation("viewMatrix");
         location_lightPosition = super.getUniformLocation("lightPosition");
         location_lightColour = super.getUniformLocation("lightColour");
+        location_shineDamper = super.getUniformLocation("shineDamper");
+        location_reflectivity = super.getUniformLocation("reflectivity");
     }
 
     public void loadLight(Light light) {
@@ -36,6 +39,11 @@ public final class StaticShader extends AbstractShader {
 
     public void loadProjectionMatrix(Matrix4f projection) {
         super.loadUniform(location_projectionMatrix, projection);
+    }
+
+    public void loadShine(float shineDamper, float reflectivity) {
+        super.loadUniform(location_shineDamper, shineDamper);
+        super.loadUniform(location_reflectivity, reflectivity);
     }
 
     public void loadTransformationMatrix(Matrix4f transformation) {

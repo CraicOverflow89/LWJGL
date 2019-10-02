@@ -65,7 +65,10 @@ public final class GameLoop {
     }
 
     private static Entity testEntity(ModelLoader loader) {
-        return new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), new ModelTexture(loader.loadTexture("temp"))), new Vector3f(0, 0, -25), 0, 0, 0, 1);
+        final ModelTexture texture = new ModelTexture(loader.loadTexture("temp"));
+        texture.setShineDamper(10);
+        texture.setReflectivity(1);
+        return new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), texture), new Vector3f(0, 0, -25), 0, 0, 0, 1);
     }
 
 }
