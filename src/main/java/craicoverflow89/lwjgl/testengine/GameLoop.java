@@ -7,11 +7,10 @@ import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
 import craicoverflow89.lwjgl.terrain.Terrain;
 import craicoverflow89.lwjgl.textures.ModelTexture;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector3f;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
 
 public final class GameLoop {
 
