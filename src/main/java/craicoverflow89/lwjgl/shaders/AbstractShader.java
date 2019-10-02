@@ -86,7 +86,7 @@ public abstract class AbstractShader {
 
         // File Error
         catch(IOException ex) {
-            System.err.println("Could not read file!");
+            System.err.println("Could not read shader file " + file + "!");
             ex.printStackTrace();
             System.exit(-1);
         }

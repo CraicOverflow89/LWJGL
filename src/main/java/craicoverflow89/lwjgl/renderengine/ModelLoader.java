@@ -66,13 +66,17 @@ public final class ModelLoader {
         // Load Texture
         int textureID = 0;
         try {
-            final Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(ModelLoader.class.getResource("/" + file + ".png").getFile()));
+            final Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(ModelLoader.class.getResource("/textures/" + file + ".png").getFile()));
             textureID = texture.getTextureID();
             textureList.add(textureID);
         }
 
         // Texture Error
-        catch(IOException ex) {ex.printStackTrace();}
+        catch(IOException ex) {
+            System.out.println("Could not load texture file " + file + "!");
+            ex.printStackTrace();
+            System.exit(-1);
+        }
 
         // Return ID
         return textureID;

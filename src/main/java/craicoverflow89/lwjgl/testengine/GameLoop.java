@@ -6,6 +6,7 @@ import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.DisplayManager;
 import craicoverflow89.lwjgl.renderengine.ModelLoader;
 import craicoverflow89.lwjgl.renderengine.ModelRender;
+import craicoverflow89.lwjgl.renderengine.ObjectLoader;
 import craicoverflow89.lwjgl.shaders.StaticShader;
 import craicoverflow89.lwjgl.textures.ModelTexture;
 import org.lwjgl.opengl.Display;
@@ -34,7 +35,7 @@ public final class GameLoop {
 
             // Test Transformation
             //entity.move(0f, 0f, -0.05f);
-            entity.rotate(1f, 1f, 0f);
+            //entity.rotate(1f, 1f, 0f);
 
             // Camera Movement
             camera.move();
@@ -59,75 +60,7 @@ public final class GameLoop {
     }
 
     private static Entity testEntity(ModelLoader loader) {
-        return new Entity(new TexturedModel(loader.loadToVAO(new float[] {
-            -0.5f,0.5f,-0.5f,
-            -0.5f,-0.5f,-0.5f,
-            0.5f,-0.5f,-0.5f,
-            0.5f,0.5f,-0.5f,
-
-            -0.5f,0.5f,0.5f,
-            -0.5f,-0.5f,0.5f,
-            0.5f,-0.5f,0.5f,
-            0.5f,0.5f,0.5f,
-
-            0.5f,0.5f,-0.5f,
-            0.5f,-0.5f,-0.5f,
-            0.5f,-0.5f,0.5f,
-            0.5f,0.5f,0.5f,
-
-            -0.5f,0.5f,-0.5f,
-            -0.5f,-0.5f,-0.5f,
-            -0.5f,-0.5f,0.5f,
-            -0.5f,0.5f,0.5f,
-
-            -0.5f,0.5f,0.5f,
-            -0.5f,0.5f,-0.5f,
-            0.5f,0.5f,-0.5f,
-            0.5f,0.5f,0.5f,
-
-            -0.5f,-0.5f,0.5f,
-            -0.5f,-0.5f,-0.5f,
-            0.5f,-0.5f,-0.5f,
-            0.5f,-0.5f,0.5f
-        }, new float[] {
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0
-        }, new int[] {
-            0,1,3,
-            3,1,2,
-            4,5,7,
-            7,5,6,
-            8,9,11,
-            11,9,10,
-            12,13,15,
-            15,13,14,
-            16,17,19,
-            19,17,18,
-            20,21,23,
-            23,21,22
-        }), new ModelTexture(loader.loadTexture("test/image"))), new Vector3f(0, 0, -5), 0, 0, 0, 1);
+        return new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), new ModelTexture(loader.loadTexture("temp"))), new Vector3f(0, 0, -5), 0, 0, 0, 1);
     }
 
 }
