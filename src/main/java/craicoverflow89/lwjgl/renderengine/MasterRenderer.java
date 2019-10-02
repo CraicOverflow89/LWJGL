@@ -3,6 +3,7 @@ package craicoverflow89.lwjgl.renderengine;
 import craicoverflow89.lwjgl.entities.Camera;
 import craicoverflow89.lwjgl.entities.Entity;
 import craicoverflow89.lwjgl.entities.Light;
+import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.shaders.StaticShader;
 import craicoverflow89.lwjgl.shaders.TerrainShader;
@@ -21,6 +22,7 @@ public final class MasterRenderer {
     private static final float FIELD_OF_VIEW = 70f;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
+    private static final Colour SKY_COLOUR = new Colour(0.784f, 0.667f, 0.647f);
     private final StaticShader shaderStatic = new StaticShader();
     private final TerrainShader shaderTerrain = new TerrainShader();
     private final EntityRenderer rendererEntity;
@@ -95,7 +97,7 @@ public final class MasterRenderer {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
         // Background Colour
-        GL11.glClearColor(0.471f, 0.745f, 0.235f, 1f);
+        GL11.glClearColor(SKY_COLOUR.r, SKY_COLOUR.g, SKY_COLOUR.b, 1f);
     }
 
     public void render(Light light, Camera camera) {
@@ -116,6 +118,7 @@ public final class MasterRenderer {
         shaderStatic.start();
         shaderStatic.loadLight(light);
         shaderStatic.loadViewMatrix(camera);
+        shaderStatic.loadSkyColour(SKY_COLOUR);
 
         // Render Entities
         rendererEntity.render(entityMap);
@@ -131,6 +134,7 @@ public final class MasterRenderer {
         shaderTerrain.start();
         shaderTerrain.loadLight(light);
         shaderTerrain.loadViewMatrix(camera);
+        shaderTerrain.loadSkyColour(SKY_COLOUR);
 
         // Render Terrain
         rendererTerrain.render(terrainList);

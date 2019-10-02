@@ -2,6 +2,7 @@ package craicoverflow89.lwjgl.shaders;
 
 import craicoverflow89.lwjgl.entities.Camera;
 import craicoverflow89.lwjgl.entities.Light;
+import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.helpers.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 
@@ -10,7 +11,7 @@ public final class StaticShader extends AbstractShader {
     private static final String VERTEX_FILE = "vertexShaderStatic";
     private static final String FRAGMENT_FILE = "fragmentShaderStatic";
     private int location_transformationMatrix, location_projectionMatrix, location_viewMatrix, location_lightPosition;
-    private int location_lightColour, location_shineDamper, location_reflectivity, location_lightFake;
+    private int location_lightColour, location_shineDamper, location_reflectivity, location_lightFake, location_skyColour;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -31,6 +32,7 @@ public final class StaticShader extends AbstractShader {
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectivity = super.getUniformLocation("reflectivity");
         location_lightFake = super.getUniformLocation("lightFake");
+        location_skyColour = super.getUniformLocation("skyColour");
     }
 
     public void loadLight(Light light) {
@@ -49,6 +51,10 @@ public final class StaticShader extends AbstractShader {
     public void loadShine(float shineDamper, float reflectivity) {
         super.loadUniform(location_shineDamper, shineDamper);
         super.loadUniform(location_reflectivity, reflectivity);
+    }
+
+    public void loadSkyColour(Colour skyColour) {
+        super.loadUniform(location_skyColour, skyColour.asVector3f());
     }
 
     public void loadTransformationMatrix(Matrix4f transformation) {

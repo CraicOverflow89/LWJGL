@@ -71,9 +71,9 @@ public final class GameLoop {
         final List<Entity> entityList = new ArrayList();
 
         // Example Texture 1
-        final ModelTexture textureTemp = new ModelTexture(loader.loadTexture("temp"));
-        textureTemp.setShineDamper(10);
-        textureTemp.setReflectivity(1);
+        final ModelTexture textureTree = new ModelTexture(loader.loadTexture("temp"));
+        textureTree.setShineDamper(10);
+        textureTree.setReflectivity(1);
 
         // Example Texture 2
         final ModelTexture textureFern = new ModelTexture(loader.loadTexture("fern"));
@@ -83,10 +83,20 @@ public final class GameLoop {
         textureFern.hasFakeLighting(true);
 
         // Example Content
-        //entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTemp), new Vector3f(0, 0, 0f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(0, 0, 0f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(25, 0, 0f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(50, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(-10, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(0, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(10, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(-10, 0, -10f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(0, 0, -10f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -10f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(-10, 0, -20f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(0, 0, -20f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -20f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -30f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -40f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -50f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -60f), 0, 0, 0, 1));
+        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -70f), 0, 0, 0, 1));
 
         // Return Entities
         return entityList;
