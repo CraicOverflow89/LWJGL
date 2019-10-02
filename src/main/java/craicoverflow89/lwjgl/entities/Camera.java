@@ -37,7 +37,7 @@ public final class Camera {
         return yaw;
     }
 
-    public void move() {
+    /*public void tick() {
 
         // Move Forward
         if(Keyboard.isKeyDown(Keyboard.KEY_W)) position.z -= 0.1f;
@@ -50,6 +50,6 @@ public final class Camera {
 
         // Move Right
         if(Keyboard.isKeyDown(Keyboard.KEY_D)) position.x += 0.1f;
-    }
+    }*/
 
 }

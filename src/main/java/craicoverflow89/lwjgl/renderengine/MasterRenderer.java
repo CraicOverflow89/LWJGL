@@ -1,7 +1,7 @@
 package craicoverflow89.lwjgl.renderengine;
 
+import craicoverflow89.lwjgl.entities.BaseEntity;
 import craicoverflow89.lwjgl.entities.Camera;
-import craicoverflow89.lwjgl.entities.Entity;
 import craicoverflow89.lwjgl.entities.Light;
 import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.models.TexturedModel;
@@ -27,7 +27,7 @@ public final class MasterRenderer {
     private final TerrainShader shaderTerrain = new TerrainShader();
     private final EntityRenderer rendererEntity;
     private final TerrainRenderer rendererTerrain;
-    private final Map<TexturedModel, List<Entity>> entityMap = new HashMap();
+    private final Map<TexturedModel, List<BaseEntity>> entityMap = new HashMap();
     private final List<Terrain> terrainList = new ArrayList();
 
     public MasterRenderer() {
@@ -41,18 +41,18 @@ public final class MasterRenderer {
         rendererTerrain = new TerrainRenderer(shaderTerrain, projectionMatrix);
     }
 
-    public void addEntity(Entity entity) {
+    public void addEntity(BaseEntity entity) {
 
         // Fetch Model
         final TexturedModel model = entity.getModel();
 
         // Existing Model
-        final List<Entity> existingList = entityMap.get(model);
+        final List<BaseEntity> existingList = entityMap.get(model);
         if(existingList != null) existingList.add(entity);
 
         // New Model
         else {
-            List<Entity> newList = new ArrayList();
+            List<BaseEntity> newList = new ArrayList();
             newList.add(entity);
             entityMap.put(model, newList);
         }

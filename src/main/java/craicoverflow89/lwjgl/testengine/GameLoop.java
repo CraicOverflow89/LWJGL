@@ -1,8 +1,9 @@
 package craicoverflow89.lwjgl.testengine;
 
+import craicoverflow89.lwjgl.entities.BaseEntity;
 import craicoverflow89.lwjgl.entities.Camera;
-import craicoverflow89.lwjgl.entities.Entity;
 import craicoverflow89.lwjgl.entities.Light;
+import craicoverflow89.lwjgl.entities.PlayerEntity;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
 import craicoverflow89.lwjgl.terrain.Terrain;
@@ -32,8 +33,9 @@ public final class GameLoop {
         // Create Camera
         final Camera camera = new Camera(new Vector3f(0f, 2f, 25f));
 
-        // Example Entity
-        final List<Entity> entityList = testEntity(loader);
+        // Example BaseEntity
+        final List<BaseEntity> entityList = testEntity(loader);
+        final PlayerEntity entityPlayer = (PlayerEntity) entityList.get(0);
 
         // Example Terrain
         final List<Terrain> terrainList = testTerrain(loader);
@@ -45,11 +47,12 @@ public final class GameLoop {
             //entity.move(0f, 0f, -0.05f);
             //entity.rotate(0f, 1f, 0f);
 
-            // Camera Movement
-            camera.move();
+            // Process Inputs
+            //camera.tick();
+            entityPlayer.tick();
 
             // Load Entities
-            for(Entity entity : entityList) renderer.addEntity(entity);
+            for(BaseEntity entity : entityList) renderer.addEntity(entity);
 
             // Load Terrain
             for(Terrain terrain : terrainList) renderer.addTerrain(terrain);
@@ -67,38 +70,48 @@ public final class GameLoop {
         DisplayManager.closeDisplay();
     }
 
-    private static List<Entity> testEntity(ModelLoader loader) {
+    private static List<BaseEntity> testEntity(ModelLoader loader) {
 
         // Create Entities
-        final List<Entity> entityList = new ArrayList();
+        final List<BaseEntity> entityList = new ArrayList();
 
-        // Example Texture 1
-        final ModelTexture textureTree = new ModelTexture(loader.loadTexture("temp"));
+        // Example Texture: Player
+        final ModelTexture texturePlayer = new ModelTexture(loader.loadTexture("misc/temp"));
+
+        // Example Texture: Tree
+        final ModelTexture textureTree = new ModelTexture(loader.loadTexture("misc/temp"));
         textureTree.setShineDamper(10);
         textureTree.setReflectivity(1);
 
-        // Example Texture 2
-        final ModelTexture textureFern = new ModelTexture(loader.loadTexture("fern"));
-        textureFern.setShineDamper(10);
-        textureFern.setReflectivity(1);
+        // Example Texture: Fern
+        final ModelTexture textureFern = new ModelTexture(loader.loadTexture("scenery/fern"));
         textureFern.hasTransparency(true);
         textureFern.hasFakeLighting(true);
 
+        // Example Model: Player
+        final TexturedModel modelPlayer = new TexturedModel(ObjectLoader.loadObjectModel("misc/bunny", loader), texturePlayer);
+
+        // Example Model: Tree
+        final TexturedModel modelTree = new TexturedModel(ObjectLoader.loadObjectModel("scenery/tree", loader), textureTree);
+
+        // Example Model: Fern
+        final TexturedModel modelFern = new TexturedModel(ObjectLoader.loadObjectModel("scenery/fern", loader), textureFern);
+
         // Example Content
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(-10, 0, 0f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(0, 0, 0f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(10, 0, 0f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("fern", loader), textureFern), new Vector3f(-10, 0, -10f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(0, 0, -10f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -10f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(-10, 0, -20f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(0, 0, -20f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -20f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -30f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -40f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -50f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -60f), 0, 0, 0, 1));
-        entityList.add(new Entity(new TexturedModel(ObjectLoader.loadObjectModel("tree", loader), textureTree), new Vector3f(10, 0, -70f), 0, 0, 0, 1));
+        entityList.add(new PlayerEntity(modelPlayer, new Vector3f(0, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelFern, new Vector3f(-10, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelFern, new Vector3f(10, 0, 0f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelFern, new Vector3f(-10, 0, -10f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(0, 0, -10f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10, 0, -10f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(-10, 0, -20f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(0, 0, -20f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10, 0, -20f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10, 0, -30f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10, 0, -40f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10, 0, -50f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10, 0, -60f), 0, 0, 0, 1));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10, 0, -70f), 0, 0, 0, 1));
 
         // Return Entities
         return entityList;
