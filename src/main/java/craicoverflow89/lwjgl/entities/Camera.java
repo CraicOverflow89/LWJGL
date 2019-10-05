@@ -1,24 +1,20 @@
 package craicoverflow89.lwjgl.entities;
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 public final class Camera {
 
-    private Vector3f position;
-    private float pitch = 0f;
+    private final PlayerEntity player;
+    private Vector3f position = new Vector3f(0f, 0f, 0f);
+    private float pitch = 20f;
     private float yaw = 0f;
     private float roll = 0f;
+    private final float distanceFromPlayer = 10f;
+    private float angleAroundPlayer;
 
-    public Camera(Vector3f position) {
-        this.position = position;
-    }
-
-    public Camera(Vector3f position, float pitch, float yaw, float roll) {
-        this.position = position;
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
+    public Camera(PlayerEntity player) {
+        this.player = player;
     }
 
     public float getPitch() {
@@ -37,19 +33,41 @@ public final class Camera {
         return yaw;
     }
 
-    /*public void tick() {
+    public void move() {
 
-        // Move Forward
-        if(Keyboard.isKeyDown(Keyboard.KEY_W)) position.z -= 0.1f;
+        // Calculate Zoom
+        //distanceFromPlayer += Mouse.getDWheel() * 0.1f;
 
-        // Move Backward
-        if(Keyboard.isKeyDown(Keyboard.KEY_S)) position.z += 0.1f;
+        // Camera Movement
+        if(Mouse.isButtonDown(1)) {
 
-        // Move Left
-        if(Keyboard.isKeyDown(Keyboard.KEY_A)) position.x -= 0.1f;
+            // Calculate Pitch
+            pitch += Mouse.getDY() * 0.1f;
 
-        // Move Right
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)) position.x += 0.1f;
-    }*/
+            // Calculate Angle
+            angleAroundPlayer += Mouse.getDX() * 0.3f;
+        }
+
+        // Calculate Position
+        movePosition();
+    }
+
+    private void movePosition() {
+
+        // Execute Calculations
+        final float distanceHorizontal = (float) (distanceFromPlayer * Math.cos(Math.toRadians(pitch)));
+        final float distanceVertical = (float) (distanceFromPlayer * Math.cos(Math.toRadians(pitch)));
+        final float theta = player.getRotationY() + angleAroundPlayer;
+
+        // Update Position
+        position = new Vector3f(
+            player.getPosition().x - (float) (distanceHorizontal * Math.sin(Math.toRadians(theta))),
+            player.getPosition().y + distanceVertical,
+            player.getPosition().z - (float) (distanceHorizontal * Math.cos(Math.toRadians(theta)))
+        );
+
+        // Update Yaw
+        yaw = 180 - theta;
+    }
 
 }
