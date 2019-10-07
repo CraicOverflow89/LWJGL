@@ -79,6 +79,7 @@ public final class Terrain {
         if(x < 0 || x >= this.heightMap.getHeight() || z < 0 || z >= this.heightMap.getHeight()) {
             //throw new IllegalArgumentException("Invalid position for terrain height - must be 0 - " + this.heightMap.getHeight() + "!");
             return 0f;
+            // NOTE: this is required at the moment
         }
 
         // Calculate Height
