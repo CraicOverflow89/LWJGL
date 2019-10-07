@@ -6,10 +6,6 @@ import craicoverflow89.lwjgl.textures.TerrainTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexturePack;
 import org.lwjgl.util.vector.Vector3f;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 public final class Terrain {
 
     private static final float SIZE = 800;
@@ -20,29 +16,22 @@ public final class Terrain {
     private final RawModel model;
     private final TerrainTexturePack texturePack;
     private final TerrainTexture blendMap;
+    private final HeightMap heightMap;
 
     public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap) {
         this.posX = gridX * SIZE;
         this.posZ = gridZ * SIZE;
-        this.model = generateTerrain(loader, heightMap);
         this.texturePack = texturePack;
         this.blendMap = blendMap;
+        this.heightMap = new HeightMap(heightMap);
+        this.model = generateTerrain(loader);
     }
 
-    private RawModel generateTerrain(ModelLoader loader, String heightMapFile) {
-
-        // Load Heightmap
-        BufferedImage heightMapImage = null;
-        try {heightMapImage = ImageIO.read(Terrain.class.getResource("/textures/" + heightMapFile + ".png"));}
-        catch(IOException ex) {
-            System.err.println("Could not read height map file!");
-            ex.printStackTrace();
-            System.exit(-1);
-        }
-        final int vertexCount = heightMapImage.getHeight();
+    private RawModel generateTerrain(ModelLoader loader) {
 
         // ?
-        int count = vertexCount * vertexCount;
+        final int vertexCount = this.heightMap.getHeight();
+        final int count = vertexCount * vertexCount;
         float[] vertices = new float[count * 3];
         float[] normals = new float[count * 3];
         float[] textureCoords = new float[count * 2];
@@ -53,7 +42,7 @@ public final class Terrain {
         for(int i = 0; i < vertexCount; i ++) {
             for(int j = 0; j < vertexCount; j ++) {
                 vertices[vertexPointer * 3 ] = (float) j / ((float)vertexCount - 1) * SIZE;
-                vertices[vertexPointer * 3 + 1] = getTerrainHeight(j, i, heightMapImage);
+                vertices[vertexPointer * 3 + 1] = getTerrainHeight(j, i);
                 vertices[vertexPointer * 3 + 2] = (float) i / ((float) vertexCount - 1) * SIZE;
                 normals[vertexPointer * 3] = 0;
                 normals[vertexPointer * 3 + 1] = 1;
@@ -87,15 +76,15 @@ public final class Terrain {
         return blendMap;
     }
 
-    private float getTerrainHeight(int x, int z, BufferedImage image) {
+    private float getTerrainHeight(int x, int z) {
 
         // Invalid Position
-        if(x < 0 || x > image.getHeight() || z < 0 || z > image.getHeight()) {
-            throw new IllegalArgumentException("Invalid position for terrain height - must be 0 - " + image.getHeight() + "!");
+        if(x < 0 || x > this.heightMap.getHeight() || z < 0 || z > this.heightMap.getHeight()) {
+            throw new IllegalArgumentException("Invalid position for terrain height - must be 0 - " + this.heightMap.getHeight() + "!");
         }
 
         // Calculate Height
-        float height = image.getRGB(x, z);
+        float height = this.heightMap.getImage().getRGB(x, z);
         height += PIXEL_COLOUR_MAX / 2f;
         height /= PIXEL_COLOUR_MAX / 2f;
         height *= HEIGHT_MAX    / 2f;
