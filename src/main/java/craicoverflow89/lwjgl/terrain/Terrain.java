@@ -17,12 +17,12 @@ public final class Terrain {
     private final BlendMap blendMap;
     private final HeightMap heightMap;
 
-    public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, BlendMap blendMap, String heightMap) {
+    public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, BlendMap blendMap, HeightMap heightMap) {
         this.posX = gridX * SIZE;
         this.posZ = gridZ * SIZE;
         this.texturePack = texturePack;
         this.blendMap = blendMap;
-        this.heightMap = new HeightMap(heightMap);
+        this.heightMap = heightMap;
         this.model = generateTerrain(loader);
     }
 

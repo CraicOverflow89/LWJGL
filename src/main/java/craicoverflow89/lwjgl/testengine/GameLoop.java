@@ -7,6 +7,7 @@ import craicoverflow89.lwjgl.entities.PlayerEntity;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
 import craicoverflow89.lwjgl.terrain.BlendMap;
+import craicoverflow89.lwjgl.terrain.HeightMap;
 import craicoverflow89.lwjgl.terrain.Terrain;
 import craicoverflow89.lwjgl.textures.ModelTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexture;
@@ -130,12 +131,19 @@ public final class GameLoop {
         final TerrainTexture textureDirt = new TerrainTexture(loader.loadTexture("terrain/dirt"));
         final TerrainTexture textureMeadow = new TerrainTexture(loader.loadTexture("terrain/meadow"));
         final TerrainTexture texturePath = new TerrainTexture(loader.loadTexture("terrain/path"));
+
+        // Example Texture Pack
         final TerrainTexturePack texturePack = new TerrainTexturePack(textureGrass, textureDirt, textureMeadow, texturePath);
+
+        // Example Blend Map
         final BlendMap blendMap = new BlendMap(loader, "terrain/blend/test");
 
+        // Example Height Map
+        final HeightMap heightMap = new HeightMap("terrain/height/test");
+
         // Example Terrain
-        terrainList.add(new Terrain(0, 0, loader, texturePack, blendMap, "terrain/height/test"));
-        terrainList.add(new Terrain(-1, 0, loader, texturePack, blendMap, "terrain/height/test"));
+        terrainList.add(new Terrain(0, 0, loader, texturePack, blendMap, heightMap));
+        terrainList.add(new Terrain(-1, 0, loader, texturePack, blendMap, heightMap));
 
         // Return Terrain
         return terrainList;
