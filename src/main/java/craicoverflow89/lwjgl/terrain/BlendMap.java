@@ -3,7 +3,7 @@ package craicoverflow89.lwjgl.terrain;
 import craicoverflow89.lwjgl.renderengine.ModelLoader;
 import craicoverflow89.lwjgl.textures.TerrainTexture;
 
-public class BlendMap {
+public final class BlendMap {
 
     private final TerrainTexture texture;
 

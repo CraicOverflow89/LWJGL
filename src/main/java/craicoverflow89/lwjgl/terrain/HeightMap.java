@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class HeightMap {
+public final class HeightMap {
 
     private final BufferedImage image;
 

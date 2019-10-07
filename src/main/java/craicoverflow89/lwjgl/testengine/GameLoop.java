@@ -9,6 +9,7 @@ import craicoverflow89.lwjgl.renderengine.*;
 import craicoverflow89.lwjgl.terrain.BlendMap;
 import craicoverflow89.lwjgl.terrain.HeightMap;
 import craicoverflow89.lwjgl.terrain.Terrain;
+import craicoverflow89.lwjgl.terrain.TerrainMap;
 import craicoverflow89.lwjgl.textures.ModelTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexturePack;
@@ -39,9 +40,10 @@ public final class GameLoop {
         final Camera camera = new Camera(entityPlayer);
 
         // Example Terrain
-        final List<Terrain> terrainList = testTerrain(loader);
+        final TerrainMap terrainMap = testTerrain(loader);
 
         // Game Running
+        final List<Terrain> terrainList = terrainMap.asList();
         while(!Display.isCloseRequested()) {
 
             // Test Transformation
@@ -50,9 +52,8 @@ public final class GameLoop {
 
             // Process Inputs
             camera.move();
+            entityPlayer.tick(terrainMap.atWorldPosition(entityPlayer.getPosition().x, entityPlayer.getPosition().z));
             // NOTE: consider best naming practices for these methods
-            entityPlayer.tick(terrainList.get(0));
-            // NOTE: obviously a temporary solution (need to work out which terrain it is based on position)
 
             // Load Entities
             for(BaseEntity entity : entityList) renderer.addEntity(entity);
@@ -123,10 +124,10 @@ public final class GameLoop {
         return entityList;
     }
 
-    private static List<Terrain> testTerrain(ModelLoader loader) {
+    private static TerrainMap testTerrain(ModelLoader loader) {
 
         // Create Terrain
-        final List<Terrain> terrainList = new ArrayList();
+        final TerrainMap terrainMap = new TerrainMap(loader);
 
         // Example Textures
         final TerrainTexture textureGrass = new TerrainTexture(loader.loadTexture("terrain/grass"));
@@ -144,11 +145,11 @@ public final class GameLoop {
         final HeightMap heightMap = new HeightMap("terrain/height/test");
 
         // Example Terrain
-        terrainList.add(new Terrain(0, 0, loader, texturePack, blendMap, heightMap));
-        terrainList.add(new Terrain(-1, 0, loader, texturePack, blendMap, heightMap));
+        terrainMap.put(0, 0, texturePack, blendMap, heightMap);
+        terrainMap.put(-1, 0, texturePack, blendMap, heightMap);
 
         // Return Terrain
-        return terrainList;
+        return terrainMap;
     }
 
 }
