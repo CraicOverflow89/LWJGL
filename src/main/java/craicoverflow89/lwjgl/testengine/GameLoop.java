@@ -131,8 +131,8 @@ public final class GameLoop {
         final TerrainTexturePack texturePack = new TerrainTexturePack(textureGrass, textureDirt, textureMeadow, texturePath);
 
         // Example Content
-        terrainList.add(new Terrain(0, 0, loader, texturePack, blendMap));
-        terrainList.add(new Terrain(-1, 0, loader, texturePack, blendMap));
+        terrainList.add(new Terrain(0, 0, loader, texturePack, blendMap, "terrain/height/test"));
+        terrainList.add(new Terrain(-1, 0, loader, texturePack, blendMap, "terrain/height/test"));
 
         // Return Terrain
         return terrainList;
