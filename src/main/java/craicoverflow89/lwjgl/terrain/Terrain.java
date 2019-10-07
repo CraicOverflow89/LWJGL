@@ -42,11 +42,12 @@ public final class Terrain {
         for(int i = 0; i < vertexCount; i ++) {
             for(int j = 0; j < vertexCount; j ++) {
                 vertices[vertexPointer * 3 ] = (float) j / ((float)vertexCount - 1) * SIZE;
-                vertices[vertexPointer * 3 + 1] = getTerrainHeight(j, i);
+                vertices[vertexPointer * 3 + 1] = generateTerrainHeight(j, i);
                 vertices[vertexPointer * 3 + 2] = (float) i / ((float) vertexCount - 1) * SIZE;
-                normals[vertexPointer * 3] = 0;
-                normals[vertexPointer * 3 + 1] = 1;
-                normals[vertexPointer * 3 + 2] = 0;
+                Vector3f normal = generateTerrainNormal(j, i);
+                normals[vertexPointer * 3] = normal.x;
+                normals[vertexPointer * 3 + 1] = normal.y;
+                normals[vertexPointer * 3 + 2] = normal.z;
                 textureCoords[vertexPointer * 2] = (float) j / ((float) vertexCount - 1);
                 textureCoords[vertexPointer * 2 + 1] = (float) i / ((float) vertexCount - 1);
                 vertexPointer ++;
@@ -72,15 +73,12 @@ public final class Terrain {
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
-    public TerrainTexture getBlendMap() {
-        return blendMap;
-    }
-
-    private float getTerrainHeight(int x, int z) {
+    private float generateTerrainHeight(int x, int z) {
 
         // Invalid Position
-        if(x < 0 || x > this.heightMap.getHeight() || z < 0 || z > this.heightMap.getHeight()) {
-            throw new IllegalArgumentException("Invalid position for terrain height - must be 0 - " + this.heightMap.getHeight() + "!");
+        if(x < 0 || x >= this.heightMap.getHeight() || z < 0 || z >= this.heightMap.getHeight()) {
+            //throw new IllegalArgumentException("Invalid position for terrain height - must be 0 - " + this.heightMap.getHeight() + "!");
+            return 0f;
         }
 
         // Calculate Height
@@ -89,6 +87,24 @@ public final class Terrain {
         height /= PIXEL_COLOUR_MAX / 2f;
         height *= HEIGHT_MAX    / 2f;
         return height;
+    }
+
+    private Vector3f generateTerrainNormal(int x, int z) {
+
+        // Neighbouring Vertices
+        final float heightL = generateTerrainHeight(x - 1, z);
+        final float heightR = generateTerrainHeight(x + 1, z);
+        final float heightD = generateTerrainHeight(x, z - 1);
+        final float heightU = generateTerrainHeight(x, z + 1);
+
+        // Calculate Normal
+        final Vector3f normal = new Vector3f(heightL - heightR, 2f, heightD - heightU);
+        normal.normalise();
+        return normal;
+    }
+
+    public TerrainTexture getBlendMap() {
+        return blendMap;
     }
 
     public Vector3f getPosition() {
