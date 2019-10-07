@@ -89,7 +89,7 @@ public final class GameLoop {
         textureFern.hasFakeLighting(true);
 
         // Example Model: Player
-        final TexturedModel modelPlayer = new TexturedModel(ObjectLoader.loadObjectModel("misc/bunny", loader), texturePlayer);
+        final TexturedModel modelPlayer = new TexturedModel(ObjectLoader.loadObjectModel("misc/cube", loader), texturePlayer);
 
         // Example Model: Tree
         final TexturedModel modelTree = new TexturedModel(ObjectLoader.loadObjectModel("scenery/tree", loader), textureTree);
@@ -98,20 +98,20 @@ public final class GameLoop {
         final TexturedModel modelFern = new TexturedModel(ObjectLoader.loadObjectModel("scenery/fern", loader), textureFern);
 
         // Example Content
-        entityList.add(new PlayerEntity(modelPlayer, new Vector3f(0f, 0f, 0f), 0f, 0f, 0f, 0.25f));
+        entityList.add(new PlayerEntity(modelPlayer, new Vector3f(0f, 0f, 0f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelFern, new Vector3f(-10f, 0f, 0f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelFern, new Vector3f(10f, 0f, 0f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelFern, new Vector3f(-10f, 0f, -10f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(0f, 0f, -10f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, -10f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(-10f, 0f, -20f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(0f, 0f, -20f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, -20f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, -30f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, -40f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, -50f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, -60f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, -70f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelFern, new Vector3f(-10f, 0f, 10f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(0f, 0f, 10f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 10f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(-10f, 0f, 20f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(0f, 0f, 20f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 20f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 30f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 40f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 50f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 60f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 70f), 0f, 0f, 0f, 1f));
 
         // Return Entities
         return entityList;
@@ -131,8 +131,8 @@ public final class GameLoop {
         final TerrainTexturePack texturePack = new TerrainTexturePack(textureGrass, textureDirt, textureMeadow, texturePath);
 
         // Example Content
-        terrainList.add(new Terrain(0, -1, loader, texturePack, blendMap));
-        terrainList.add(new Terrain(1, -1, loader, texturePack, blendMap));
+        terrainList.add(new Terrain(0, 0, loader, texturePack, blendMap));
+        terrainList.add(new Terrain(-1, 0, loader, texturePack, blendMap));
 
         // Return Terrain
         return terrainList;

@@ -10,7 +10,7 @@ public final class Camera {
     private float pitch = 20f;
     private float yaw = 0f;
     private float roll = 0f;
-    private final float distanceFromPlayer = 10f;
+    private final float distanceFromPlayer = 30f;
     private float angleAroundPlayer;
 
     public Camera(PlayerEntity player) {
@@ -62,7 +62,7 @@ public final class Camera {
         // Update Position
         position = new Vector3f(
             player.getPosition().x - (float) (distanceHorizontal * Math.sin(Math.toRadians(theta))),
-            player.getPosition().y + distanceVertical,
+            player.getPosition().y + distanceVertical - 10f,
             player.getPosition().z - (float) (distanceHorizontal * Math.cos(Math.toRadians(theta)))
         );
 

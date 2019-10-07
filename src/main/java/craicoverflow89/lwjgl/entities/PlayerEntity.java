@@ -33,10 +33,10 @@ public class PlayerEntity extends BaseEntity {
         else currentRunSpeed = 0;
 
         // Turn Left
-        if(Keyboard.isKeyDown(Keyboard.KEY_A) && !Keyboard.isKeyDown(Keyboard.KEY_D)) currentTurnSpeed = -TURN_SPEED;
+        if(Keyboard.isKeyDown(Keyboard.KEY_A) && !Keyboard.isKeyDown(Keyboard.KEY_D)) currentTurnSpeed = TURN_SPEED;
 
         // Turn Right
-        else if(Keyboard.isKeyDown(Keyboard.KEY_D) && !Keyboard.isKeyDown(Keyboard.KEY_A)) currentTurnSpeed = TURN_SPEED;
+        else if(Keyboard.isKeyDown(Keyboard.KEY_D) && !Keyboard.isKeyDown(Keyboard.KEY_A)) currentTurnSpeed = -TURN_SPEED;
 
         // No Turn
         else currentTurnSpeed = 0;
