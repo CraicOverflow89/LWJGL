@@ -50,8 +50,9 @@ public final class GameLoop {
 
             // Process Inputs
             camera.move();
-            entityPlayer.tick();
-            // NOTE: consider best naming practices for these
+            // NOTE: consider best naming practices for these methods
+            entityPlayer.tick(terrainList.get(0));
+            // NOTE: obviously a temporary solution (need to work out which terrain it is based on position)
 
             // Load Entities
             for(BaseEntity entity : entityList) renderer.addEntity(entity);
@@ -116,6 +117,7 @@ public final class GameLoop {
         entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 50f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 60f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 70f), 0f, 0f, 0f, 1f));
+        // NOTE: should use Terrain.getTerrainHeight to work out the Y position for new entities
 
         // Return Entities
         return entityList;

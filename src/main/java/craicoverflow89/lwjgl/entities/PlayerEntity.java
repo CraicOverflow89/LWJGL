@@ -2,6 +2,7 @@ package craicoverflow89.lwjgl.entities;
 
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.DisplayManager;
+import craicoverflow89.lwjgl.terrain.Terrain;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -11,7 +12,6 @@ public class PlayerEntity extends BaseEntity {
     private static final float TURN_SPEED = 160;
     private static final float GRAVITY = -50;
     private static final float JUMP_POWER = 30;
-    private static final float TERRAIN_HEIGHT = 0;
     private float currentRunSpeed = 0;
     private float currentTurnSpeed = 0;
     private float currentJumpSpeed = 0;
@@ -52,7 +52,7 @@ public class PlayerEntity extends BaseEntity {
         }
     }
 
-    public void tick() {
+    public void tick(Terrain terrain) {
 
         // Keyboard Actions
         inputCheck();
@@ -67,10 +67,11 @@ public class PlayerEntity extends BaseEntity {
         move((float) (runDistance * Math.sin(radianY)), currentJumpSpeed * DisplayManager.getFrameTimeS(), (float) (runDistance * Math.cos(radianY)));
 
         // Terrain Collision
-        if(getPosition().y < TERRAIN_HEIGHT) {
+        final float terrainHeight = terrain.getTerrainHeight(getPosition().x, getPosition().z);
+        if(getPosition().y < terrainHeight) {
             currentJumpActive = false;
             currentJumpSpeed = 0;
-            setPositionY(TERRAIN_HEIGHT);
+            setPositionY(terrainHeight);
         }
     }
 
