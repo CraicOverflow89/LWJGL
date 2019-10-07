@@ -57,7 +57,7 @@ public final class TerrainRenderer {
         renderTerrainBindTexture(GL13.GL_TEXTURE1, texturePack.getTextureColourR());
         renderTerrainBindTexture(GL13.GL_TEXTURE2, texturePack.getTextureColourG());
         renderTerrainBindTexture(GL13.GL_TEXTURE3, texturePack.getTextureColourB());
-        renderTerrainBindTexture(GL13.GL_TEXTURE4, terrain.getBlendMap());
+        renderTerrainBindTexture(GL13.GL_TEXTURE4, terrain.getBlendMap().getTexture());
     }
 
     private void renderTerrainBindTexture(int active, TerrainTexture texture) {

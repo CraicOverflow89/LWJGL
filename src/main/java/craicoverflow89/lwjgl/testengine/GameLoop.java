@@ -6,6 +6,7 @@ import craicoverflow89.lwjgl.entities.Light;
 import craicoverflow89.lwjgl.entities.PlayerEntity;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
+import craicoverflow89.lwjgl.terrain.BlendMap;
 import craicoverflow89.lwjgl.terrain.Terrain;
 import craicoverflow89.lwjgl.textures.ModelTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexture;
@@ -97,8 +98,10 @@ public final class GameLoop {
         // Example Model: Fern
         final TexturedModel modelFern = new TexturedModel(ObjectLoader.loadObjectModel("scenery/fern", loader), textureFern);
 
-        // Example Content
+        // Example Entity: Player
         entityList.add(new PlayerEntity(modelPlayer, new Vector3f(0f, 0f, 0f), 0f, 0f, 0f, 1f));
+
+        // Example Entity: Scenery
         entityList.add(new BaseEntity(modelFern, new Vector3f(-10f, 0f, 0f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelFern, new Vector3f(10f, 0f, 0f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelFern, new Vector3f(-10f, 0f, 10f), 0f, 0f, 0f, 1f));
@@ -127,10 +130,10 @@ public final class GameLoop {
         final TerrainTexture textureDirt = new TerrainTexture(loader.loadTexture("terrain/dirt"));
         final TerrainTexture textureMeadow = new TerrainTexture(loader.loadTexture("terrain/meadow"));
         final TerrainTexture texturePath = new TerrainTexture(loader.loadTexture("terrain/path"));
-        final TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("terrain/blend/test"));
         final TerrainTexturePack texturePack = new TerrainTexturePack(textureGrass, textureDirt, textureMeadow, texturePath);
+        final BlendMap blendMap = new BlendMap(loader, "terrain/blend/test");
 
-        // Example Content
+        // Example Terrain
         terrainList.add(new Terrain(0, 0, loader, texturePack, blendMap, "terrain/height/test"));
         terrainList.add(new Terrain(-1, 0, loader, texturePack, blendMap, "terrain/height/test"));
 

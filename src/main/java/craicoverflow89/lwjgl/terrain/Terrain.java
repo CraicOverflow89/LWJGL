@@ -2,7 +2,6 @@ package craicoverflow89.lwjgl.terrain;
 
 import craicoverflow89.lwjgl.models.RawModel;
 import craicoverflow89.lwjgl.renderengine.ModelLoader;
-import craicoverflow89.lwjgl.textures.TerrainTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexturePack;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -15,10 +14,10 @@ public final class Terrain {
     private final float posX, posZ;
     private final RawModel model;
     private final TerrainTexturePack texturePack;
-    private final TerrainTexture blendMap;
+    private final BlendMap blendMap;
     private final HeightMap heightMap;
 
-    public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap) {
+    public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, BlendMap blendMap, String heightMap) {
         this.posX = gridX * SIZE;
         this.posZ = gridZ * SIZE;
         this.texturePack = texturePack;
@@ -77,7 +76,7 @@ public final class Terrain {
 
         // Invalid Position
         if(x < 0 || x >= this.heightMap.getHeight() || z < 0 || z >= this.heightMap.getHeight()) {
-            //throw new IllegalArgumentException("Invalid position for terrain height - must be 0 - " + this.heightMap.getHeight() + "!");
+            //throw new IllegalArgumentException("Invalid position for terrain height - must be between 0 and " + this.heightMap.getHeight() + "!");
             return 0f;
             // NOTE: this is required at the moment
         }
@@ -86,7 +85,7 @@ public final class Terrain {
         float height = this.heightMap.getImage().getRGB(x, z);
         height += PIXEL_COLOUR_MAX / 2f;
         height /= PIXEL_COLOUR_MAX / 2f;
-        height *= HEIGHT_MAX    / 2f;
+        height *= HEIGHT_MAX / 2f;
         return height;
     }
 
@@ -104,7 +103,7 @@ public final class Terrain {
         return normal;
     }
 
-    public TerrainTexture getBlendMap() {
+    public BlendMap getBlendMap() {
         return blendMap;
     }
 
