@@ -16,7 +16,7 @@ public final class StaticShader extends AbstractShader {
         super("vertexStatic", "fragmentStatic", List.of(
             "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "lightFake", "skyColour",
             "textureRows", "textureOffset"
-        ), List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4)));
+        ), List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4), new Pair("attenuation", 4)));
     }
 
     protected void bindAttributes() {
@@ -34,12 +34,14 @@ public final class StaticShader extends AbstractShader {
             if(x < lightList.size()) {
                 loadUniform("lightPosition", x, lightList.get(x).getPosition());
                 loadUniform("lightColour", x, lightList.get(x).getColour().asVector3f());
+                loadUniform("attenuation", x, lightList.get(x).getAttenuation());
             }
 
             // Not Supplied
             else {
                 loadUniform("lightPosition", x, new Vector3f(0f, 0f, 0f));
                 loadUniform("lightColour", x, new Vector3f(0f, 0f, 0f));
+                loadUniform("attenuation", x, new Vector3f(1f, 0f, 0f));
             }
         }
     }

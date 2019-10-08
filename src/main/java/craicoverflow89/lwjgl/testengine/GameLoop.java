@@ -5,6 +5,7 @@ import craicoverflow89.lwjgl.entities.camera.Camera;
 import craicoverflow89.lwjgl.entities.light.AbstractLight;
 import craicoverflow89.lwjgl.entities.light.GlobalLight;
 import craicoverflow89.lwjgl.entities.PlayerEntity;
+import craicoverflow89.lwjgl.entities.light.PointLight;
 import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
@@ -47,9 +48,8 @@ public final class GameLoop {
 
         // Create Lights
         final List<AbstractLight> lightList = List.of(
-            new GlobalLight(new Vector3f(0f, 10000f, -7000f), new Colour(1f, 1f, 1f))/*,
-            new GlobalLight(new Vector3f(-200f, 10f, -200f), new Colour(10f, 0f, 0f)),
-            new GlobalLight(new Vector3f(200f, 10f, 200f), new Colour(0f, 0f, 10f))*/
+            new GlobalLight(new Vector3f(0f, 10000f, -7000f), new Colour(1f, 1f, 1f)),
+            new PointLight(new Vector3f(10f, 10f, 0f), new Colour(0f, 2f, 0f), new Vector3f(1f, 0.01f, 0.002f))
         );
 
         // Create Camera
