@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,9 +17,9 @@ import org.lwjgl.util.vector.Vector3f;
 
 public abstract class AbstractShader {
 
-    private final int programID;
     private final int vertexShaderID;
     private final int fragmentShaderID;
+    private final int programID;
     private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
     private final List<String> uniformList;
     protected final HashMap<String, Integer> uniformMap = new HashMap();
@@ -26,7 +27,9 @@ public abstract class AbstractShader {
     public AbstractShader(String vertextFile, String fragmentFile, List<String> uniformList) {
 
         // Store List
-        this.uniformList = uniformList;
+        this.uniformList = new ArrayList();
+        this.uniformList.add("transformationMatrix");
+        this.uniformList.addAll(uniformList);
 
         // Load Shaders
         vertexShaderID = loadShader(vertextFile, GL20.GL_VERTEX_SHADER);
@@ -129,6 +132,10 @@ public abstract class AbstractShader {
 
         // Return ID
         return shaderID;
+    }
+
+    public final void loadTransformationMatrix(Matrix4f transformation) {
+        loadUniform("transformationMatrix", transformation);
     }
 
     protected final void loadUniform(String uniform, boolean value) {

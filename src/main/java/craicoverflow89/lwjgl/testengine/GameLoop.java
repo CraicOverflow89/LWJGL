@@ -10,6 +10,7 @@ import craicoverflow89.lwjgl.terrain.BlendMap;
 import craicoverflow89.lwjgl.terrain.HeightMap;
 import craicoverflow89.lwjgl.terrain.Terrain;
 import craicoverflow89.lwjgl.terrain.TerrainMap;
+import craicoverflow89.lwjgl.textures.GUITexture;
 import craicoverflow89.lwjgl.textures.ModelTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexturePack;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public final class GameLoop {
@@ -30,11 +32,12 @@ public final class GameLoop {
         // Create Logic
         final ModelLoader loader = new ModelLoader();
         final MasterRenderer renderer = new MasterRenderer();
+        final GUIRenderer guiRenderer = new GUIRenderer(loader);
 
         // Create Light
         final Light light = new Light(new Vector3f(0f, 10f, 0f), new Vector3f(1f, 1f, 1f));
 
-        // Example BaseEntity
+        // Example Entity
         final List<BaseEntity> entityList = testEntity(loader);
         final PlayerEntity entityPlayer = (PlayerEntity) entityList.get(0);
 
@@ -43,6 +46,9 @@ public final class GameLoop {
 
         // Example Terrain
         final TerrainMap terrainMap = testTerrain(loader);
+
+        // Example GUIs
+        final List<GUITexture> guiList = testGUI(loader);
 
         // Game Running
         final List<Terrain> terrainList = terrainMap.asList();
@@ -65,11 +71,13 @@ public final class GameLoop {
 
             // Render Game
             renderer.render(light, camera);
+            guiRenderer.render(guiList);
             DisplayManager.updateDisplay();
         }
 
         // Delete Resources
         renderer.clean();
+        guiRenderer.clean();
         loader.clean();
 
         // Close Display
@@ -127,6 +135,18 @@ public final class GameLoop {
 
         // Return Entities
         return entityList;
+    }
+
+    private static List<GUITexture> testGUI(ModelLoader loader) {
+
+        // Create GUIs
+        final ArrayList<GUITexture> guiList = new ArrayList();
+
+        // Example GUIs
+        guiList.add(new GUITexture(loader.loadTexture("gui/test"), new Vector2f(-0.5f, -0.5f), new Vector2f(0.5f, 0.5f)));
+
+        // Return GUIs
+        return guiList;
     }
 
     private static TerrainMap testTerrain(ModelLoader loader) {

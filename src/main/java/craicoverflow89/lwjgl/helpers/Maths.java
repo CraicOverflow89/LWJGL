@@ -14,6 +14,22 @@ public final class Maths {
         return l1 * p1.y + l2 * p2.y + (1f - l1 - l2) * p3.y;
     }
 
+    public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
+
+        // Create Matrix
+        final Matrix4f matrix = new Matrix4f();
+        matrix.setIdentity();
+
+        // Translate Matrix
+        Matrix4f.translate(translation, matrix, matrix);
+
+        // Scale Matrix
+        Matrix4f.scale(new Vector3f(scale.x, scale.y, 1f), matrix, matrix);
+
+        // Return Matrix
+        return matrix;
+    }
+
     public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale) {
 
         // Create Matrix

@@ -10,18 +10,10 @@ import java.util.List;
 
 public final class TerrainShader extends AbstractShader {
 
-    private static final String VERTEX_FILE = "vertexShaderTerrain";
-    private static final String FRAGMENT_FILE = "fragmentShaderTerrain";
-    //private int location_transformationMatrix, location_projectionMatrix, location_viewMatrix, location_lightPosition;
-    //private int location_lightColour, location_shineDamper, location_reflectivity, location_skyColour;
-    //private int loaction_terrainBackground, location_terrainColourR, location_terrainColourG, location_terrainColourB;
-    //private int location_terrainBlendMap;
-
     public TerrainShader() {
-        super(VERTEX_FILE, FRAGMENT_FILE, List.of(
-            "transformationMatrix", "projectionMatrix", "viewMatrix", "lightPosition", "lightColour", "shineDamper",
-            "reflectivity", "skyColour", "terrainBackground", "terrainColourR", "terrainColourG", "terrainColourB",
-            "terrainBlendMap"
+        super("vertexShaderTerrain", "fragmentShaderTerrain", List.of(
+            "projectionMatrix", "viewMatrix", "lightPosition", "lightColour", "shineDamper", "reflectivity",
+            "skyColour", "terrainBackground", "terrainColourR", "terrainColourG", "terrainColourB", "terrainBlendMap"
         ));
     }
 
@@ -55,10 +47,6 @@ public final class TerrainShader extends AbstractShader {
         loadUniform("terrainColourG", 2);
         loadUniform("terrainColourB", 3);
         loadUniform("terrainBlendMap", 4);
-    }
-
-    public void loadTransformationMatrix(Matrix4f transformation) {
-        loadUniform("transformationMatrix", transformation);
     }
 
     public void loadViewMatrix(Camera camera) {

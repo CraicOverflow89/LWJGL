@@ -11,13 +11,10 @@ import java.util.List;
 
 public final class StaticShader extends AbstractShader {
 
-    private static final String VERTEX_FILE = "vertexShaderStatic";
-    private static final String FRAGMENT_FILE = "fragmentShaderStatic";
-
     public StaticShader() {
-        super(VERTEX_FILE, FRAGMENT_FILE, List.of(
-            "transformationMatrix", "projectionMatrix", "viewMatrix", "lightPosition", "lightColour", "shineDamper",
-            "reflectivity", "lightFake", "skyColour", "textureRows", "textureOffset"
+        super("vertexShaderStatic", "fragmentShaderStatic", List.of(
+            "projectionMatrix", "viewMatrix", "lightPosition", "lightColour", "shineDamper", "reflectivity",
+            "lightFake", "skyColour", "textureRows", "textureOffset"
         ));
     }
 
@@ -55,10 +52,6 @@ public final class StaticShader extends AbstractShader {
 
     public void loadTextureRows(int rows) {
         loadUniform("textureRows", (float) rows);
-    }
-
-    public void loadTransformationMatrix(Matrix4f transformation) {
-        loadUniform("transformationMatrix", transformation);
     }
 
     public void loadViewMatrix(Camera camera) {

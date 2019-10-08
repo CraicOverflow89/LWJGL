@@ -6,11 +6,10 @@ import craicoverflow89.lwjgl.models.RawModel;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.shaders.StaticShader;
 import craicoverflow89.lwjgl.textures.ModelTexture;
-import org.lwjgl.opengl.*;
-import org.lwjgl.util.vector.Matrix4f;
-
 import java.util.List;
 import java.util.Map;
+import org.lwjgl.opengl.*;
+import org.lwjgl.util.vector.Matrix4f;
 
 public final class EntityRenderer {
 
@@ -38,11 +37,11 @@ public final class EntityRenderer {
             // Iterate Entities
             for(BaseEntity entity : entityMap.get(model)) {
 
-                // Prepare BaseEntity
+                // Prepare Entity
                 shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.getPosition(), entity.getRotationX(), entity.getRotationY(), entity.getRotationZ(), entity.getScale()));
                 shader.loadTextureOffset(entity.getTextureOffsetX(), entity.getTextureOffsetY());
 
-                // Render BaseEntity
+                // Render Entity
                 GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertextCount(), GL11.GL_UNSIGNED_INT, 0);
             }
 
