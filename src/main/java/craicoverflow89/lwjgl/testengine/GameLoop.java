@@ -1,7 +1,7 @@
 package craicoverflow89.lwjgl.testengine;
 
 import craicoverflow89.lwjgl.entities.BaseEntity;
-import craicoverflow89.lwjgl.entities.Camera;
+import craicoverflow89.lwjgl.entities.camera.Camera;
 import craicoverflow89.lwjgl.entities.light.AbstractLight;
 import craicoverflow89.lwjgl.entities.light.GlobalLight;
 import craicoverflow89.lwjgl.entities.PlayerEntity;

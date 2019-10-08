@@ -1,5 +1,6 @@
-package craicoverflow89.lwjgl.entities;
+package craicoverflow89.lwjgl.entities.camera;
 
+import craicoverflow89.lwjgl.entities.PlayerEntity;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 

@@ -1,6 +1,6 @@
 package craicoverflow89.lwjgl.shaders;
 
-import craicoverflow89.lwjgl.entities.Camera;
+import craicoverflow89.lwjgl.entities.camera.Camera;
 import craicoverflow89.lwjgl.entities.light.AbstractLight;
 import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.helpers.Maths;
