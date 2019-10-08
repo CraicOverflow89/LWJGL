@@ -1,7 +1,7 @@
 package craicoverflow89.lwjgl.shaders;
 
 import craicoverflow89.lwjgl.entities.Camera;
-import craicoverflow89.lwjgl.entities.Light;
+import craicoverflow89.lwjgl.entities.light.AbstractLight;
 import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.helpers.Maths;
 import craicoverflow89.lwjgl.helpers.Pair;
@@ -25,7 +25,7 @@ public final class TerrainShader extends AbstractShader {
         bindAttribute(2, "normal");
     }
 
-    public void loadLights(List<Light> lightList) {
+    public void loadLights(List<AbstractLight> lightList) {
 
         // Iterate Lights
         for(int x = 0; x < LIGHTS_MAX; x ++) {

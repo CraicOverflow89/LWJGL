@@ -2,7 +2,8 @@ package craicoverflow89.lwjgl.testengine;
 
 import craicoverflow89.lwjgl.entities.BaseEntity;
 import craicoverflow89.lwjgl.entities.Camera;
-import craicoverflow89.lwjgl.entities.Light;
+import craicoverflow89.lwjgl.entities.light.AbstractLight;
+import craicoverflow89.lwjgl.entities.light.GlobalLight;
 import craicoverflow89.lwjgl.entities.PlayerEntity;
 import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.models.TexturedModel;
@@ -45,10 +46,10 @@ public final class GameLoop {
         final List<GUITexture> guiList = testGUI(loader);
 
         // Create Lights
-        final List<Light> lightList = List.of(
-            new Light(new Vector3f(0f, 10000f, -7000f), new Colour(1f, 1f, 1f))/*,
-            new Light(new Vector3f(-200f, 10f, -200f), new Colour(10f, 0f, 0f)),
-            new Light(new Vector3f(200f, 10f, 200f), new Colour(0f, 0f, 10f))*/
+        final List<AbstractLight> lightList = List.of(
+            new GlobalLight(new Vector3f(0f, 10000f, -7000f), new Colour(1f, 1f, 1f))/*,
+            new GlobalLight(new Vector3f(-200f, 10f, -200f), new Colour(10f, 0f, 0f)),
+            new GlobalLight(new Vector3f(200f, 10f, 200f), new Colour(0f, 0f, 10f))*/
         );
 
         // Create Camera

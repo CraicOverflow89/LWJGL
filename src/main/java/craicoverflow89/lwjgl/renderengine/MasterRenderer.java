@@ -2,7 +2,7 @@ package craicoverflow89.lwjgl.renderengine;
 
 import craicoverflow89.lwjgl.entities.BaseEntity;
 import craicoverflow89.lwjgl.entities.Camera;
-import craicoverflow89.lwjgl.entities.Light;
+import craicoverflow89.lwjgl.entities.light.AbstractLight;
 import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.shaders.StaticShader;
@@ -100,7 +100,7 @@ public final class MasterRenderer {
         GL11.glClearColor(SKY_COLOUR.r, SKY_COLOUR.g, SKY_COLOUR.b, 1f);
     }
 
-    public void render(List<Light> lights, Camera camera) {
+    public void render(List<AbstractLight> lights, Camera camera) {
 
         // Render Setup
         prepare();
@@ -112,7 +112,7 @@ public final class MasterRenderer {
         renderTerrain(lights, camera);
     }
 
-    private void renderEntities(List<Light> lights, Camera camera) {
+    private void renderEntities(List<AbstractLight> lights, Camera camera) {
 
         // Render Setup
         shaderStatic.start();
@@ -128,7 +128,7 @@ public final class MasterRenderer {
         entityMap.clear();
     }
 
-    private void renderTerrain(List<Light> lights, Camera camera) {
+    private void renderTerrain(List<AbstractLight> lights, Camera camera) {
 
         // Render Setup
         shaderTerrain.start();
