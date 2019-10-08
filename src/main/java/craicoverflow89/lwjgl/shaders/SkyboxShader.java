@@ -21,7 +21,17 @@ public final class SkyboxShader extends AbstractShader {
     }
 
     public void loadViewMatrix(Camera camera) {
-        loadUniform("viewMatrix", Maths.createViewMatrix(camera));
+
+        // Create Matrix
+        final Matrix4f viewMatrix = Maths.createViewMatrix(camera);
+
+        // Null Translation
+        viewMatrix.m30 = 0f;
+        viewMatrix.m31 = 0f;
+        viewMatrix.m32 = 0f;
+
+        // Load Matrix
+        loadUniform("viewMatrix", viewMatrix);
     }
 
 }

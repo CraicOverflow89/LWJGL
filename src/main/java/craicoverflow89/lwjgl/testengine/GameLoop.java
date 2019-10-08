@@ -33,7 +33,7 @@ public final class GameLoop {
 
         // Create Logic
         final ModelLoader loader = new ModelLoader();
-        final MasterRenderer renderer = new MasterRenderer(loader);
+        final MasterRenderer renderer = new MasterRenderer(loader, "skybox/clouds");
         final GUIRenderer guiRenderer = new GUIRenderer(loader);
 
         // Example Entities

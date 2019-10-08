@@ -91,7 +91,7 @@ public final class ModelLoader {
         return new TextureData(buffer, width, height);
     }
 
-    public int loadCubeMap(String[] textureFiles) {
+    public int loadCubeMap(String directory, String[] textureFiles) {
 
         // Create Texture
         final int textureID = GL11.glGenTextures();
@@ -105,13 +105,17 @@ public final class ModelLoader {
         TextureData data;
         for(Object object : new ArrayIndexed(textureFiles)) {
             Pair<String, Integer> file = (Pair<String, Integer>) object;
-            data = decodeTextureFile("skybox/test/" + file.first);
+            data = decodeTextureFile(directory + "/" + file.first);
             GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + file.second, 0, GL11.GL_RGBA, data.getWidth(), data.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, data.getBuffer());
         }
 
         // Texture Parameters
         GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+
+        // Hide Seams
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
 
         // Return ID
         return textureID;

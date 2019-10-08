@@ -18,13 +18,13 @@ public final class SkyboxRenderer {
     private final RawModel model;
     private final int textureID;
 
-    public SkyboxRenderer(ModelLoader loader, Matrix4f projectionMatrix) {
+    public SkyboxRenderer(ModelLoader loader, Matrix4f projectionMatrix, String directory) {
 
         // Load Model
         model = loader.loadToVAO(VERTICES, 3);
 
         // Load Texture
-        textureID = loader.loadCubeMap(TEXTURE_FILES);
+        textureID = loader.loadCubeMap(directory, TEXTURE_FILES);
 
         // Load Data
         shader.start();
@@ -36,6 +36,9 @@ public final class SkyboxRenderer {
 
         // Shader Start
         shader.start();
+
+        // Load Camera
+        shader.loadViewMatrix(camera);
 
         // Bind VAO
         GL30.glBindVertexArray(model.getVaoID());
