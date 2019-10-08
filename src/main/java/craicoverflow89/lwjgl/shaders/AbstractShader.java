@@ -11,6 +11,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public abstract class AbstractShader {
@@ -146,6 +147,10 @@ public abstract class AbstractShader {
         value.store(matrixBuffer);
         matrixBuffer.flip();
         GL20.glUniformMatrix4(getUniformData(uniform), false, matrixBuffer);
+    }
+
+    protected final void loadUniform(String uniform, Vector2f value) {
+        GL20.glUniform2f(getUniformData(uniform), value.x, value.y);
     }
 
     protected final void loadUniform(String uniform, Vector3f value) {

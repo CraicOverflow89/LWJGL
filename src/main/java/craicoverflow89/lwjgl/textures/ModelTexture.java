@@ -6,9 +6,14 @@ public final class ModelTexture extends AbstractTexture {
     private float reflectivity = 0;
     private boolean hasTransparency = false;
     private boolean hasFakeLighting = false;
+    private int numberOfRows = 1;
 
     public ModelTexture(int textureID) {
         super(textureID);
+    }
+
+    public int getNumberOfRows() {
+        return numberOfRows;
     }
 
     public float getReflectivity() {
@@ -33,6 +38,10 @@ public final class ModelTexture extends AbstractTexture {
 
     public void hasTransparency(boolean hasTransparency) {
         this.hasTransparency = hasTransparency;
+    }
+
+    public void setNumberOfRows(int numberOfRows) {
+        this.numberOfRows = numberOfRows;
     }
 
     public void setReflectivity(float reflectivity) {

@@ -6,12 +6,24 @@ import org.lwjgl.util.vector.Vector3f;
 public class BaseEntity {
 
     private final TexturedModel model;
+    private final int textureIndex;
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;
 
     public BaseEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
+        this.textureIndex = 0;
+        this.position = position;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
+        this.scale = scale;
+    }
+
+    public BaseEntity(TexturedModel model, int textureIndex, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+        this.model = model;
+        this.textureIndex = textureIndex;
         this.position = position;
         this.rotX = rotX;
         this.rotY = rotY;
@@ -41,6 +53,14 @@ public class BaseEntity {
 
     public final float getScale() {
         return scale;
+    }
+
+    public float getTextureOffsetX() {
+        return ((float) textureIndex % model.getTexture().getNumberOfRows()) / ((float) model.getTexture().getNumberOfRows());
+    }
+
+    public float getTextureOffsetY() {
+        return ((float) textureIndex / model.getTexture().getNumberOfRows()) / ((float) model.getTexture().getNumberOfRows());
     }
 
     public void move(float x, float y, float z) {

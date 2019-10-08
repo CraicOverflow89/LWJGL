@@ -40,6 +40,7 @@ public final class EntityRenderer {
 
                 // Prepare BaseEntity
                 shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.getPosition(), entity.getRotationX(), entity.getRotationY(), entity.getRotationZ(), entity.getScale()));
+                shader.loadTextureOffset(entity.getTextureOffsetX(), entity.getTextureOffsetY());
 
                 // Render BaseEntity
                 GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertextCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -63,6 +64,9 @@ public final class EntityRenderer {
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
+
+        // Texture Atlas
+        shader.loadTextureRows(texture.getNumberOfRows());
 
         // Texture Transparency
         if(texture.hasTransparency()) MasterRenderer.setCulling(false);

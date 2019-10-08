@@ -5,6 +5,7 @@ import craicoverflow89.lwjgl.entities.Light;
 import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.helpers.Maths;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 
 import java.util.List;
 
@@ -15,8 +16,8 @@ public final class StaticShader extends AbstractShader {
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE, List.of(
-            "transformationMatrix", "projectionMatrix", "viewMatrix", "lightPosition",
-            "lightColour", "shineDamper", "reflectivity", "lightFake", "skyColour"
+            "transformationMatrix", "projectionMatrix", "viewMatrix", "lightPosition", "lightColour", "shineDamper",
+            "reflectivity", "lightFake", "skyColour", "textureRows", "textureOffset"
         ));
     }
 
@@ -46,6 +47,14 @@ public final class StaticShader extends AbstractShader {
 
     public void loadSkyColour(Colour skyColour) {
         loadUniform("skyColour", skyColour.asVector3f());
+    }
+
+    public void loadTextureOffset(float offsetX, float offsetY) {
+        loadUniform("textureOffset", new Vector2f(offsetX, offsetY));
+    }
+
+    public void loadTextureRows(int rows) {
+        loadUniform("textureRows", (float) rows);
     }
 
     public void loadTransformationMatrix(Matrix4f transformation) {

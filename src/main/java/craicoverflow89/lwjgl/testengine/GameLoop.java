@@ -15,6 +15,8 @@ import craicoverflow89.lwjgl.textures.TerrainTexture;
 import craicoverflow89.lwjgl.textures.TerrainTexturePack;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -88,9 +90,11 @@ public final class GameLoop {
         textureTree.setReflectivity(1);
 
         // Example Texture: Fern
-        final ModelTexture textureFern = new ModelTexture(loader.loadTexture("scenery/fern"));
+        //final ModelTexture textureFern = new ModelTexture(loader.loadTexture("scenery/fern"));
+        final ModelTexture textureFern = new ModelTexture(loader.loadTexture("scenery/fernAtlas"));
         textureFern.hasTransparency(true);
         textureFern.hasFakeLighting(true);
+        textureFern.setNumberOfRows(2);
 
         // Example Model: Player
         final TexturedModel modelPlayer = new TexturedModel(ObjectLoader.loadObjectModel("misc/cube", loader), texturePlayer);
@@ -105,9 +109,10 @@ public final class GameLoop {
         entityList.add(new PlayerEntity(modelPlayer, new Vector3f(0f, 0f, 0f), 0f, 0f, 0f, 1f));
 
         // Example Entity: Scenery
-        entityList.add(new BaseEntity(modelFern, new Vector3f(-10f, 0f, 0f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelFern, new Vector3f(10f, 0f, 0f), 0f, 0f, 0f, 1f));
-        entityList.add(new BaseEntity(modelFern, new Vector3f(-10f, 0f, 10f), 0f, 0f, 0f, 1f));
+        final Random random = new Random(676452);
+        entityList.add(new BaseEntity(modelFern, random.nextInt(4), new Vector3f(-10f, 0f, 0f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelFern, random.nextInt(4), new Vector3f(10f, 0f, 0f), 0f, 0f, 0f, 1f));
+        entityList.add(new BaseEntity(modelFern, random.nextInt(4), new Vector3f(-10f, 0f, 10f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelTree, new Vector3f(0f, 0f, 10f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelTree, new Vector3f(10f, 0f, 10f), 0f, 0f, 0f, 1f));
         entityList.add(new BaseEntity(modelTree, new Vector3f(-10f, 0f, 20f), 0f, 0f, 0f, 1f));
