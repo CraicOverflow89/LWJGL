@@ -100,23 +100,23 @@ public final class MasterRenderer {
         GL11.glClearColor(SKY_COLOUR.r, SKY_COLOUR.g, SKY_COLOUR.b, 1f);
     }
 
-    public void render(Light light, Camera camera) {
+    public void render(List<Light> lights, Camera camera) {
 
         // Render Setup
         prepare();
 
         // Render Entities
-        renderEntities(light, camera);
+        renderEntities(lights, camera);
 
         // Render Terrain
-        renderTerrain(light, camera);
+        renderTerrain(lights, camera);
     }
 
-    private void renderEntities(Light light, Camera camera) {
+    private void renderEntities(List<Light> lights, Camera camera) {
 
         // Render Setup
         shaderStatic.start();
-        shaderStatic.loadLight(light);
+        shaderStatic.loadLights(lights);
         shaderStatic.loadViewMatrix(camera);
         shaderStatic.loadSkyColour(SKY_COLOUR);
 
@@ -128,11 +128,11 @@ public final class MasterRenderer {
         entityMap.clear();
     }
 
-    private void renderTerrain(Light light, Camera camera) {
+    private void renderTerrain(List<Light> lights, Camera camera) {
 
         // Render Setup
         shaderTerrain.start();
-        shaderTerrain.loadLight(light);
+        shaderTerrain.loadLights(lights);
         shaderTerrain.loadViewMatrix(camera);
         shaderTerrain.loadSkyColour(SKY_COLOUR);
 

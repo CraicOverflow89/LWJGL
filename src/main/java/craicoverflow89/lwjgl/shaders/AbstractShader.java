@@ -1,5 +1,6 @@
 package craicoverflow89.lwjgl.shaders;
 
+import craicoverflow89.lwjgl.helpers.Pair;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,7 +8,6 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -17,19 +17,22 @@ import org.lwjgl.util.vector.Vector3f;
 
 public abstract class AbstractShader {
 
+    protected static final int LIGHTS_MAX = 4;
     private final int vertexShaderID;
     private final int fragmentShaderID;
     private final int programID;
     private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
-    private final List<String> uniformList;
-    protected final HashMap<String, Integer> uniformMap = new HashMap();
+    private final List<String> uniformIntList = new ArrayList();
+    protected final HashMap<String, Integer> uniformIntMap = new HashMap();
+    private final List<Pair<String, Integer>> uniformArrayList = new ArrayList();
+    protected final HashMap<String, List<Integer>> uniformArrayMap = new HashMap();
 
-    public AbstractShader(String vertextFile, String fragmentFile, List<String> uniformList) {
+    public AbstractShader(String vertextFile, String fragmentFile, List<String> uniformIntList, List<Pair<String, Integer>> uniformArrayList) {
 
-        // Store List
-        this.uniformList = new ArrayList();
-        this.uniformList.add("transformationMatrix");
-        this.uniformList.addAll(uniformList);
+        // Uniform Data
+        this.uniformIntList.add("transformationMatrix");
+        this.uniformIntList.addAll(uniformIntList);
+        this.uniformArrayList.addAll(uniformArrayList);
 
         // Load Shaders
         vertexShaderID = loadShader(vertextFile, GL20.GL_VERTEX_SHADER);
@@ -76,12 +79,12 @@ public abstract class AbstractShader {
         GL20.glDeleteProgram(programID);
     }
 
-    private final int getUniformData(String uniform) {
-        int result = 0;
-        try {result = uniformMap.get(uniform);}
+    private final List<Integer> getUniformArrayData(String uniform) {
+        List<Integer> result = new ArrayList();
+        try {result = uniformArrayMap.get(uniform);}
         catch(NullPointerException ex) {
-            System.err.println("Could not find uniform with name " + uniform + "!");
-            System.err.println("    " + uniformMap.keySet());
+            System.err.println("Could not find uniform array with name " + uniform + "!");
+            System.err.println("    " + uniformArrayMap.keySet());
             System.err.println();
             ex.printStackTrace();
             System.exit(-1);
@@ -89,13 +92,44 @@ public abstract class AbstractShader {
         return result;
     }
 
-    protected final int getUniformLocation(String uniformName) {
+    protected final List<Integer> getUniformArrayLocation(Pair<String, Integer> uniform) {
+
+        // Create List
+        final List<Integer> locations = new ArrayList();
+
+        // Iterate Elements
+        for(int x = 0; x < uniform.second; x ++) locations.add(getUniformIntLocation(uniform.first + "[" + x + "]"));
+
+        // Return List
+        return locations;
+    }
+
+    private final int getUniformIntData(String uniform) {
+        int result = 0;
+        try {result = uniformIntMap.get(uniform);}
+        catch(NullPointerException ex) {
+            System.err.println("Could not find uniform integer with name " + uniform + "!");
+            System.err.println("    " + uniformIntMap.keySet());
+            System.err.println();
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+        return result;
+    }
+
+    protected final int getUniformIntLocation(String uniformName) {
         return GL20.glGetUniformLocation(programID, uniformName);
     }
 
     private final void getUniformLocations() {
-        uniformMap.clear();
-        for(String uniform : uniformList) uniformMap.put(uniform, getUniformLocation(uniform));
+
+        // Integer Locations
+        uniformIntMap.clear();
+        for(String uniform : uniformIntList) uniformIntMap.put(uniform, getUniformIntLocation(uniform));
+
+        // Array Locations
+        uniformArrayMap.clear();
+        for(Pair<String, Integer> uniform : uniformArrayList) uniformArrayMap.put(uniform.first, getUniformArrayLocation(uniform));
     }
 
     private static final int loadShader(String file, int type) {
@@ -139,29 +173,33 @@ public abstract class AbstractShader {
     }
 
     protected final void loadUniform(String uniform, boolean value) {
-        GL20.glUniform1f(getUniformData(uniform), value ? 1f : 0f);
+        GL20.glUniform1f(getUniformIntData(uniform), value ? 1f : 0f);
     }
 
     protected final void loadUniform(String uniform, int value) {
-        GL20.glUniform1i(getUniformData(uniform), value);
+        GL20.glUniform1i(getUniformIntData(uniform), value);
     }
 
     protected final void loadUniform(String uniform, float value) {
-        GL20.glUniform1f(getUniformData(uniform), value);
+        GL20.glUniform1f(getUniformIntData(uniform), value);
     }
 
     protected final void loadUniform(String uniform, Matrix4f value) {
         value.store(matrixBuffer);
         matrixBuffer.flip();
-        GL20.glUniformMatrix4(getUniformData(uniform), false, matrixBuffer);
+        GL20.glUniformMatrix4(getUniformIntData(uniform), false, matrixBuffer);
     }
 
     protected final void loadUniform(String uniform, Vector2f value) {
-        GL20.glUniform2f(getUniformData(uniform), value.x, value.y);
+        GL20.glUniform2f(getUniformIntData(uniform), value.x, value.y);
     }
 
     protected final void loadUniform(String uniform, Vector3f value) {
-        GL20.glUniform3f(getUniformData(uniform), value.x, value.y, value.z);
+        GL20.glUniform3f(getUniformIntData(uniform), value.x, value.y, value.z);
+    }
+
+    protected final void loadUniform(String uniform, Integer position, Vector3f value) {
+        GL20.glUniform3f(getUniformArrayData(uniform).get(position), value.x, value.y, value.z);
     }
 
     public final void start() {

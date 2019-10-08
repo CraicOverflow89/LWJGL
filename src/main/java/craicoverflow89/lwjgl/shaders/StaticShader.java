@@ -4,18 +4,19 @@ import craicoverflow89.lwjgl.entities.Camera;
 import craicoverflow89.lwjgl.entities.Light;
 import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.helpers.Maths;
+import craicoverflow89.lwjgl.helpers.Pair;
+import java.util.List;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
-
-import java.util.List;
+import org.lwjgl.util.vector.Vector3f;
 
 public final class StaticShader extends AbstractShader {
 
     public StaticShader() {
         super("vertexStatic", "fragmentStatic", List.of(
-            "projectionMatrix", "viewMatrix", "lightPosition", "lightColour", "shineDamper", "reflectivity",
-            "lightFake", "skyColour", "textureRows", "textureOffset"
-        ));
+            "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "lightFake", "skyColour",
+            "textureRows", "textureOffset"
+        ), List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4)));
     }
 
     protected void bindAttributes() {
@@ -24,9 +25,23 @@ public final class StaticShader extends AbstractShader {
         bindAttribute(2, "normal");
     }
 
-    public void loadLight(Light light) {
-        loadUniform("lightPosition", light.getPosition());
-        loadUniform("lightColour", light.getColour());
+    public void loadLights(List<Light> lightList) {
+
+        // Iterate Lights
+        for(int x = 0; x < LIGHTS_MAX; x ++) {
+
+            // Light Supplied
+            if(x < lightList.size()) {
+                loadUniform("lightPosition", x, lightList.get(x).getPosition());
+                loadUniform("lightColour", x, lightList.get(x).getColour().asVector3f());
+            }
+
+            // Not Supplied
+            else {
+                loadUniform("lightPosition", x, new Vector3f(0f, 0f, 0f));
+                loadUniform("lightColour", x, new Vector3f(0f, 0f, 0f));
+            }
+        }
     }
 
     public void loadLightFake(Boolean lightFake) {

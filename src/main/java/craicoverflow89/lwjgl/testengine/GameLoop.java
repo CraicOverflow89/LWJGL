@@ -4,6 +4,7 @@ import craicoverflow89.lwjgl.entities.BaseEntity;
 import craicoverflow89.lwjgl.entities.Camera;
 import craicoverflow89.lwjgl.entities.Light;
 import craicoverflow89.lwjgl.entities.PlayerEntity;
+import craicoverflow89.lwjgl.helpers.Colour;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
 import craicoverflow89.lwjgl.terrain.BlendMap;
@@ -17,7 +18,6 @@ import craicoverflow89.lwjgl.textures.TerrainTexturePack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -34,21 +34,25 @@ public final class GameLoop {
         final MasterRenderer renderer = new MasterRenderer();
         final GUIRenderer guiRenderer = new GUIRenderer(loader);
 
-        // Create Light
-        final Light light = new Light(new Vector3f(0f, 10f, 0f), new Vector3f(1f, 1f, 1f));
-
-        // Example Entity
+        // Example Entities
         final List<BaseEntity> entityList = testEntity(loader);
         final PlayerEntity entityPlayer = (PlayerEntity) entityList.get(0);
-
-        // Create Camera
-        final Camera camera = new Camera(entityPlayer);
 
         // Example Terrain
         final TerrainMap terrainMap = testTerrain(loader);
 
         // Example GUIs
         final List<GUITexture> guiList = testGUI(loader);
+
+        // Create Lights
+        final List<Light> lightList = List.of(
+            new Light(new Vector3f(0f, 10000f, -7000f), new Colour(1f, 1f, 1f))/*,
+            new Light(new Vector3f(-200f, 10f, -200f), new Colour(10f, 0f, 0f)),
+            new Light(new Vector3f(200f, 10f, 200f), new Colour(0f, 0f, 10f))*/
+        );
+
+        // Create Camera
+        final Camera camera = new Camera(entityPlayer);
 
         // Game Running
         final List<Terrain> terrainList = terrainMap.asList();
@@ -70,7 +74,7 @@ public final class GameLoop {
             for(Terrain terrain : terrainList) renderer.addTerrain(terrain);
 
             // Render Game
-            renderer.render(light, camera);
+            renderer.render(lightList, camera);
             guiRenderer.render(guiList);
             DisplayManager.updateDisplay();
         }
