@@ -23,6 +23,7 @@ public final class MasterRenderer {
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
     private static final Colour SKY_COLOUR = new Colour(0.5444f, 0.62f, 0.69f);
+    private final Matrix4f projectionMatrix = createProjectionMatrix();
     private final StaticShader shaderStatic = new StaticShader();
     private final TerrainShader shaderTerrain = new TerrainShader();
     private final EntityRenderer rendererEntity;
@@ -37,7 +38,6 @@ public final class MasterRenderer {
         setCulling(true);
 
         // Renderer Creation
-        final Matrix4f projectionMatrix = createProjectionMatrix();
         rendererEntity = new EntityRenderer(shaderStatic, projectionMatrix);
         rendererTerrain = new TerrainRenderer(shaderTerrain, projectionMatrix);
         rendererSkybox = new SkyboxRenderer(loader, projectionMatrix, skyboxDirectory);
@@ -88,6 +88,10 @@ public final class MasterRenderer {
 
         // Return Matrix
         return matrix;
+    }
+
+    public Matrix4f getProjectionMatrix() {
+        return projectionMatrix;
     }
 
     public void prepare() {

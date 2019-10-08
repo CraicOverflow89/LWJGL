@@ -7,6 +7,7 @@ import craicoverflow89.lwjgl.entities.light.GlobalLight;
 import craicoverflow89.lwjgl.entities.PlayerEntity;
 import craicoverflow89.lwjgl.entities.light.PointLight;
 import craicoverflow89.lwjgl.helpers.Colour;
+import craicoverflow89.lwjgl.helpers.MousePicker;
 import craicoverflow89.lwjgl.helpers.Pair;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
@@ -55,6 +56,9 @@ public final class GameLoop {
         // Create Camera
         final Camera camera = new Camera(entityPlayer);
 
+        // Mouse Picker
+        final MousePicker mousePicker = new MousePicker(camera, renderer.getProjectionMatrix());
+
         // Game Running
         final List<Terrain> terrainList = terrainMap.asList();
         while(!Display.isCloseRequested()) {
@@ -65,8 +69,13 @@ public final class GameLoop {
 
             // Process Inputs
             camera.move();
+            mousePicker.update();
             entityPlayer.tick(terrainMap.atWorldPosition(entityPlayer.getPosition().x, entityPlayer.getPosition().z));
             // NOTE: consider best naming practices for these methods
+
+            // DEBUG: Mouse Ray
+            //System.out.println(mousePicker.getCurrentRay());
+            // NOTE: use this value for detecting terrain / entities
 
             // Load Entities
             for(BaseEntity entity : entityList) renderer.addEntity(entity);
