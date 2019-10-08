@@ -4,6 +4,7 @@ import craicoverflow89.lwjgl.entities.BaseEntity;
 import craicoverflow89.lwjgl.entities.camera.Camera;
 import craicoverflow89.lwjgl.entities.light.AbstractLight;
 import craicoverflow89.lwjgl.helpers.Colour;
+import craicoverflow89.lwjgl.helpers.Pair;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.shaders.StaticShader;
 import craicoverflow89.lwjgl.shaders.TerrainShader;
@@ -30,7 +31,7 @@ public final class MasterRenderer {
     private final Map<TexturedModel, List<BaseEntity>> entityMap = new HashMap();
     private final List<Terrain> terrainList = new ArrayList();
 
-    public MasterRenderer(ModelLoader loader, String skyboxDirectory) {
+    public MasterRenderer(ModelLoader loader, Pair<String, String> skyboxDirectory) {
 
         // Ignore Faces
         setCulling(true);
@@ -113,7 +114,7 @@ public final class MasterRenderer {
         renderTerrain(lights, camera);
 
         // Render Skybox
-        rendererSkybox.render(camera);
+        rendererSkybox.render(camera, SKY_COLOUR);
     }
 
     private void renderEntities(List<AbstractLight> lights, Camera camera) {

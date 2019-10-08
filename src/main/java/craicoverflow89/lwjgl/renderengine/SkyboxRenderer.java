@@ -1,6 +1,8 @@
 package craicoverflow89.lwjgl.renderengine;
 
 import craicoverflow89.lwjgl.entities.camera.Camera;
+import craicoverflow89.lwjgl.helpers.Colour;
+import craicoverflow89.lwjgl.helpers.Pair;
 import craicoverflow89.lwjgl.models.RawModel;
 import craicoverflow89.lwjgl.shaders.SkyboxShader;
 import org.lwjgl.opengl.GL11;
@@ -16,29 +18,34 @@ public final class SkyboxRenderer {
     private static final String[] TEXTURE_FILES = {"right", "left", "top", "bottom", "back", "front"};
     private final SkyboxShader shader = new SkyboxShader();
     private final RawModel model;
-    private final int textureID;
+    private final Pair<Integer, Integer> textureID;
 
-    public SkyboxRenderer(ModelLoader loader, Matrix4f projectionMatrix, String directory) {
+    public SkyboxRenderer(ModelLoader loader, Matrix4f projectionMatrix, Pair<String, String> directory) {
 
         // Load Model
         model = loader.loadToVAO(VERTICES, 3);
 
-        // Load Texture
-        textureID = loader.loadCubeMap(directory, TEXTURE_FILES);
+        // Load Textures
+        textureID = new Pair(
+            loader.loadCubeMap(directory.first, TEXTURE_FILES),
+            loader.loadCubeMap(directory.second, TEXTURE_FILES)
+        );
 
         // Load Data
         shader.start();
+        shader.loadCubeMaps();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
     }
 
-    public void render(Camera camera) {
+    public void render(Camera camera, Colour fogColour) {
 
-        // Shader Start
+        // Shader Setup
         shader.start();
-
-        // Load Camera
         shader.loadViewMatrix(camera);
+        shader.loadFogColour(fogColour);
+        shader.loadBlendFactor(0f);
+        // NOTE: come back to this (0f is completely daytime and 1f is night)
 
         // Bind VAO
         GL30.glBindVertexArray(model.getVaoID());
@@ -46,9 +53,11 @@ public final class SkyboxRenderer {
         // Enable Attributes
         GL20.glEnableVertexAttribArray(0);
 
-        // Bind Texture
+        // Bind Textures
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, textureID);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, textureID.first);
+        GL13.glActiveTexture(GL13.GL_TEXTURE1);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, textureID.second);
 
         // Render Skybox
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertextCount());

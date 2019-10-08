@@ -7,6 +7,7 @@ import craicoverflow89.lwjgl.entities.light.GlobalLight;
 import craicoverflow89.lwjgl.entities.PlayerEntity;
 import craicoverflow89.lwjgl.entities.light.PointLight;
 import craicoverflow89.lwjgl.helpers.Colour;
+import craicoverflow89.lwjgl.helpers.Pair;
 import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.renderengine.*;
 import craicoverflow89.lwjgl.terrain.BlendMap;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public final class GameLoop {
@@ -33,7 +33,7 @@ public final class GameLoop {
 
         // Create Logic
         final ModelLoader loader = new ModelLoader();
-        final MasterRenderer renderer = new MasterRenderer(loader, "skybox/clouds");
+        final MasterRenderer renderer = new MasterRenderer(loader, new Pair("skybox/clouds", "skybox/night"));
         final GUIRenderer guiRenderer = new GUIRenderer(loader);
 
         // Example Entities
@@ -148,7 +148,7 @@ public final class GameLoop {
         final ArrayList<GUITexture> guiList = new ArrayList();
 
         // Example GUIs
-        guiList.add(new GUITexture(loader.loadTexture("gui/test"), new Vector2f(-0.5f, -0.5f), new Vector2f(0.5f, 0.5f)));
+        //guiList.add(new GUITexture(loader.loadTexture("gui/test"), new Vector2f(-0.5f, -0.5f), new Vector2f(0.5f, 0.5f)));
 
         // Return GUIs
         return guiList;
