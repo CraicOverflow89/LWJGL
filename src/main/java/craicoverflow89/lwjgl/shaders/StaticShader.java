@@ -12,7 +12,7 @@ import java.util.List;
 public final class StaticShader extends AbstractShader {
 
     public StaticShader() {
-        super("vertexShaderStatic", "fragmentShaderStatic", List.of(
+        super("vertexStatic", "fragmentStatic", List.of(
             "projectionMatrix", "viewMatrix", "lightPosition", "lightColour", "shineDamper", "reflectivity",
             "lightFake", "skyColour", "textureRows", "textureOffset"
         ));

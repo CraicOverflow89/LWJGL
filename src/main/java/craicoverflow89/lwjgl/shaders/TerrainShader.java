@@ -11,7 +11,7 @@ import java.util.List;
 public final class TerrainShader extends AbstractShader {
 
     public TerrainShader() {
-        super("vertexShaderTerrain", "fragmentShaderTerrain", List.of(
+        super("vertexTerrain", "fragmentTerrain", List.of(
             "projectionMatrix", "viewMatrix", "lightPosition", "lightColour", "shineDamper", "reflectivity",
             "skyColour", "terrainBackground", "terrainColourR", "terrainColourG", "terrainColourB", "terrainBlendMap"
         ));

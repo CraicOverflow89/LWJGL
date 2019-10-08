@@ -5,7 +5,7 @@ import java.util.List;
 public class GUIShader extends AbstractShader {
 
     public GUIShader() {
-        super("vertexShaderGUI", "fragmentShaderGUI", List.of());
+        super("vertexGUI", "fragmentGUI", List.of());
     }
 
     protected void bindAttributes() {

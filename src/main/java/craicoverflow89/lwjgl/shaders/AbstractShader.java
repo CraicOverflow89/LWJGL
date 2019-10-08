@@ -105,7 +105,7 @@ public abstract class AbstractShader {
 
         // Read File
         try {
-            final BufferedReader reader = new BufferedReader(new FileReader(AbstractShader.class.getResource("/craicoverflow89/lwjgl/shaders/" + file).getFile()));
+            final BufferedReader reader = new BufferedReader(new FileReader(AbstractShader.class.getResource("/shaders/" + file).getFile()));
             String line;
             while((line = reader.readLine()) != null) source.append(line).append("\n");
             reader.close();
