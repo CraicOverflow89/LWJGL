@@ -14,8 +14,8 @@ public final class TerrainShader extends AbstractShader {
 
     public TerrainShader() {
         super("vertexTerrain", "fragmentTerrain", List.of(
-            "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity",
-            "skyColour", "terrainBackground", "terrainColourR", "terrainColourG", "terrainColourB", "terrainBlendMap"
+            "transformationMatrix", "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "skyColour",
+            "terrainBackground", "terrainColourR", "terrainColourG", "terrainColourB", "terrainBlendMap"
         ), List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4), new Pair("attenuation", 4)));
     }
 
@@ -65,6 +65,10 @@ public final class TerrainShader extends AbstractShader {
         loadUniform("terrainColourG", 2);
         loadUniform("terrainColourB", 3);
         loadUniform("terrainBlendMap", 4);
+    }
+
+    public final void loadTransformationMatrix(Matrix4f transformation) {
+        loadUniform("transformationMatrix", transformation);
     }
 
     public void loadViewMatrix(Camera camera) {

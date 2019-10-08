@@ -14,8 +14,8 @@ public final class StaticShader extends AbstractShader {
 
     public StaticShader() {
         super("vertexStatic", "fragmentStatic", List.of(
-            "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "lightFake", "skyColour",
-            "textureRows", "textureOffset"
+            "transformationMatrix", "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "lightFake",
+            "skyColour", "textureRows", "textureOffset"
         ), List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4), new Pair("attenuation", 4)));
     }
 
@@ -69,6 +69,10 @@ public final class StaticShader extends AbstractShader {
 
     public void loadTextureRows(int rows) {
         loadUniform("textureRows", (float) rows);
+    }
+
+    public final void loadTransformationMatrix(Matrix4f transformation) {
+        loadUniform("transformationMatrix", transformation);
     }
 
     public void loadViewMatrix(Camera camera) {

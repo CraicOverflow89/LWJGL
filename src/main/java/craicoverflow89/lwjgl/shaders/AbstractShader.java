@@ -22,17 +22,16 @@ public abstract class AbstractShader {
     private final int fragmentShaderID;
     private final int programID;
     private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
-    private final List<String> uniformIntList = new ArrayList();
+    private final List<String> uniformIntList;
     protected final HashMap<String, Integer> uniformIntMap = new HashMap();
-    private final List<Pair<String, Integer>> uniformArrayList = new ArrayList();
+    private final List<Pair<String, Integer>> uniformArrayList;
     protected final HashMap<String, List<Integer>> uniformArrayMap = new HashMap();
 
     public AbstractShader(String vertextFile, String fragmentFile, List<String> uniformIntList, List<Pair<String, Integer>> uniformArrayList) {
 
         // Uniform Data
-        this.uniformIntList.add("transformationMatrix");
-        this.uniformIntList.addAll(uniformIntList);
-        this.uniformArrayList.addAll(uniformArrayList);
+        this.uniformIntList = uniformIntList;
+        this.uniformArrayList = uniformArrayList;
 
         // Load Shaders
         vertexShaderID = loadShader(vertextFile, GL20.GL_VERTEX_SHADER);
@@ -166,10 +165,6 @@ public abstract class AbstractShader {
 
         // Return ID
         return shaderID;
-    }
-
-    public final void loadTransformationMatrix(Matrix4f transformation) {
-        loadUniform("transformationMatrix", transformation);
     }
 
     protected final void loadUniform(String uniform, boolean value) {

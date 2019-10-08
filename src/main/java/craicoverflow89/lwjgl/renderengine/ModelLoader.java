@@ -1,13 +1,18 @@
 package craicoverflow89.lwjgl.renderengine;
 
+import craicoverflow89.lwjgl.helpers.ArrayIndexed;
+import craicoverflow89.lwjgl.helpers.Pair;
 import craicoverflow89.lwjgl.models.RawModel;
+import craicoverflow89.lwjgl.textures.TextureData;
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
+import de.matthiasmann.twl.utils.PNGDecoder;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -58,17 +63,73 @@ public final class ModelLoader {
         return vaoID;
     }
 
+    private TextureData decodeTextureFile(String file) {
+
+        // Load Texture
+        ByteBuffer buffer = null;
+        int width = 0;
+        int height = 0;
+        try {
+            final FileInputStream inputStream = new FileInputStream(ModelLoader.class.getResource("/textures/" + file + ".png").getFile());
+            final PNGDecoder decoder = new PNGDecoder(inputStream);
+            width = decoder.getWidth();
+            height = decoder.getHeight();
+            buffer = ByteBuffer.allocateDirect(4 * width * height);
+            decoder.decode(buffer, width * 4, PNGDecoder.Format.RGBA);
+            buffer.flip();
+            inputStream.close();
+        }
+
+        // Texture Error
+        catch(Exception ex) {
+            System.out.println("Could not load texture file " + file + "!");
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+
+        // Create Data
+        return new TextureData(buffer, width, height);
+    }
+
+    public int loadCubeMap(String[] textureFiles) {
+
+        // Create Texture
+        final int textureID = GL11.glGenTextures();
+        textureList.add(textureID);
+
+        // Bind Texture
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, textureID);
+
+        // Iterate Textures
+        TextureData data;
+        for(Object object : new ArrayIndexed(textureFiles)) {
+            Pair<String, Integer> file = (Pair<String, Integer>) object;
+            data = decodeTextureFile("skybox/test/" + file.first);
+            GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + file.second, 0, GL11.GL_RGBA, data.getWidth(), data.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, data.getBuffer());
+        }
+
+        // Texture Parameters
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+
+        // Return ID
+        return textureID;
+    }
+
     public int loadTexture(String file) {
 
         // Load Texture
         int textureID = 0;
         try {
-            final Texture texture = TextureLoader.getTexture("PNG", new FileInputStream(ModelLoader.class.getResource("/textures/" + file + ".png").getFile()));
+            final FileInputStream inputStream = new FileInputStream(ModelLoader.class.getResource("/textures/" + file + ".png").getFile());
+            final Texture texture = TextureLoader.getTexture("PNG", inputStream);
             GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
             textureID = texture.getTextureID();
             textureList.add(textureID);
+            inputStream.close();
         }
 
         // Texture Error
@@ -93,6 +154,19 @@ public final class ModelLoader {
 
         // Create Model
         return new RawModel(vaoID, positions.length / 2);
+    }
+
+    public RawModel loadToVAO(float[] positions, int dimensions) {
+
+        // Create VAO
+        final int vaoID = createVAO();
+
+        // Store Data
+        storeData(0, dimensions, positions);
+        unbindVAO();
+
+        // Create Model
+        return new RawModel(vaoID, positions.length / dimensions);
     }
 
     public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {

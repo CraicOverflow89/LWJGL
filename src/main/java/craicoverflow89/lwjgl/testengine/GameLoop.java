@@ -33,7 +33,7 @@ public final class GameLoop {
 
         // Create Logic
         final ModelLoader loader = new ModelLoader();
-        final MasterRenderer renderer = new MasterRenderer();
+        final MasterRenderer renderer = new MasterRenderer(loader);
         final GUIRenderer guiRenderer = new GUIRenderer(loader);
 
         // Example Entities

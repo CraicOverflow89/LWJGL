@@ -8,14 +8,13 @@ import craicoverflow89.lwjgl.models.TexturedModel;
 import craicoverflow89.lwjgl.shaders.StaticShader;
 import craicoverflow89.lwjgl.shaders.TerrainShader;
 import craicoverflow89.lwjgl.terrain.Terrain;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Matrix4f;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Matrix4f;
 
 public final class MasterRenderer {
 
@@ -27,10 +26,11 @@ public final class MasterRenderer {
     private final TerrainShader shaderTerrain = new TerrainShader();
     private final EntityRenderer rendererEntity;
     private final TerrainRenderer rendererTerrain;
+    private final SkyboxRenderer rendererSkybox;
     private final Map<TexturedModel, List<BaseEntity>> entityMap = new HashMap();
     private final List<Terrain> terrainList = new ArrayList();
 
-    public MasterRenderer() {
+    public MasterRenderer(ModelLoader loader) {
 
         // Ignore Faces
         setCulling(true);
@@ -39,6 +39,7 @@ public final class MasterRenderer {
         final Matrix4f projectionMatrix = createProjectionMatrix();
         rendererEntity = new EntityRenderer(shaderStatic, projectionMatrix);
         rendererTerrain = new TerrainRenderer(shaderTerrain, projectionMatrix);
+        rendererSkybox = new SkyboxRenderer(loader, projectionMatrix);
     }
 
     public void addEntity(BaseEntity entity) {
@@ -110,6 +111,9 @@ public final class MasterRenderer {
 
         // Render Terrain
         renderTerrain(lights, camera);
+
+        // Render Skybox
+        rendererSkybox.render(camera);
     }
 
     private void renderEntities(List<AbstractLight> lights, Camera camera) {
