@@ -59,7 +59,7 @@ public abstract class AbstractShader {
         getUniformLocations();
     }
 
-    protected void bindAttributes() {
+    private void bindAttributes() {
         for(int x = 0; x < attributeList.size(); x ++) {
             GL20.glBindAttribLocation(programID, x, attributeList.get(x));
         }
