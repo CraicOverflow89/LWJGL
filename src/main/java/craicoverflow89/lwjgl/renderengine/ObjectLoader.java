@@ -73,9 +73,9 @@ public final class ObjectLoader {
 
                 // Parse Face
                 try {
-                    processFace(data[1].split("/"), textureList, normalList, indiceList, textureArray, normalArray);
-                    processFace(data[2].split("/"), textureList, normalList, indiceList, textureArray, normalArray);
-                    processFace(data[3].split("/"), textureList, normalList, indiceList, textureArray, normalArray);
+                    for(int x = 1; x <= 3; x ++) {
+                        processFace(data[x].split("/"), textureList, normalList, indiceList, textureArray, normalArray);
+                    }
                 }
 
                 // Face Error
