@@ -32,6 +32,8 @@ public final class TerrainMap {
     }
 
     public Terrain atWorldPosition(float x, float z) {
+        // NOTE: not using these arguments
+        //       this needs completing
 
         // Grid Position
         final int gridX = 0;
