@@ -24,6 +24,7 @@ public final class StaticShader extends AbstractShader {
         bindAttribute(1, "textureCoords");
         bindAttribute(2, "normal");
     }
+    // NOTE: do this in AbstractShader with ["position", "textureCoords", "normal"] passed to super
 
     public void loadLights(List<AbstractLight> lightList) {
 

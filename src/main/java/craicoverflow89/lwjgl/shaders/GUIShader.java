@@ -13,6 +13,7 @@ public class GUIShader extends AbstractShader {
     protected void bindAttributes() {
         bindAttribute(0, "position");
     }
+    // NOTE: do this in AbstractShader with ["position"] passed to super
 
     public final void loadTransformationMatrix(Matrix4f transformation) {
         loadUniform("transformationMatrix", transformation);

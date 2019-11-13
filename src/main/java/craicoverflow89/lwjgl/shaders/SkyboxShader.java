@@ -23,6 +23,7 @@ public final class SkyboxShader extends AbstractShader {
     protected void bindAttributes() {
         bindAttribute(0, "position");
     }
+    // NOTE: do this in AbstractShader with ["position"] passed to super
 
     public void loadBlendFactor(float blendFactor) {
         loadUniform("blendFactor", blendFactor);
