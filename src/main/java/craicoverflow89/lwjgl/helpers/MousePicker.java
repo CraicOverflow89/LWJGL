@@ -37,8 +37,8 @@ public final class MousePicker {
         eyeCoords = new Vector4f(eyeCoords.x, eyeCoords.y, -1f, 0f);
 
         // Worldspace Coordinates
-        Vector4f worldCoords4f = Matrix4f.transform(Matrix4f.invert(viewMatrix, null), eyeCoords, null);
-        Vector3f worldCoords3f = new Vector3f(worldCoords4f.x, worldCoords4f.y, worldCoords4f.z);
+        final Vector4f worldCoords4f = Matrix4f.transform(Matrix4f.invert(viewMatrix, null), eyeCoords, null);
+        final Vector3f worldCoords3f = new Vector3f(worldCoords4f.x, worldCoords4f.y, worldCoords4f.z);
         worldCoords3f.normalise();
 
         // Return Result

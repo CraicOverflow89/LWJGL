@@ -76,6 +76,7 @@ public final class GameLoop {
             // DEBUG: Mouse Ray
             //System.out.println(mousePicker.getCurrentRay());
             // NOTE: use this value for detecting terrain / entities
+            //       https://www.youtube.com/watch?v=DLKN0jExRIM
 
             // Load Entities
             for(BaseEntity entity : entityList) renderer.addEntity(entity);
