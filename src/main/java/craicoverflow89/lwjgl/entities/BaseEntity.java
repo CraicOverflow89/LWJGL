@@ -91,22 +91,22 @@ public class BaseEntity {
         position = new Vector3f(position.x, position.y, positionZ);
     }
 
-    public final void setRotation(float rotX, float rotY, float rotZ) {
-        this.rotX = rotX;
-        this.rotY = rotY;
-        this.rotZ = rotZ;
+    public final void setRotation(float rotationX, float rotationY, float rotationZ) {
+        this.rotX = rotationX;
+        this.rotY = rotationY;
+        this.rotZ = rotationZ;
     }
 
     public final void setRotationX(float rotationX) {
-        this.rotX = rotX;
+        this.rotX = rotationX;
     }
 
     public final void setRotationY(float rotationY) {
-        this.rotY = rotY;
+        this.rotY = rotationY;
     }
 
     public final void setRotationZ(float rotationZ) {
-        this.rotZ = rotZ;
+        this.rotZ = rotationZ;
     }
 
     public final void setScale(float scale) {
