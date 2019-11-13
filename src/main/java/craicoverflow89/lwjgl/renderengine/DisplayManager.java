@@ -29,7 +29,11 @@ public final class DisplayManager {
             );
             Display.setTitle("LWJGL");
         }
-        catch(LWJGLException ex) {ex.printStackTrace();}
+        catch(LWJGLException ex) {
+            System.out.println("Could not create display - " + ex.getMessage() + "!");
+            ex.printStackTrace();
+            System.exit(-1);
+        }
 
         // Render Location
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
