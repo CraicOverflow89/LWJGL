@@ -4,6 +4,7 @@ import craicoverflow89.lwjgl.helpers.ArrayIndexed;
 import craicoverflow89.lwjgl.helpers.Pair;
 import craicoverflow89.lwjgl.models.RawModel;
 import craicoverflow89.lwjgl.textures.TextureData;
+import de.matthiasmann.twl.utils.PNGDecoder;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
-import de.matthiasmann.twl.utils.PNGDecoder;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
