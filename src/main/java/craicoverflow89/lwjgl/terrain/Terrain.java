@@ -30,6 +30,8 @@ public final class Terrain {
     }
 
     private RawModel generateTerrain(ModelLoader loader) {
+        // NOTE: need to add comments and finals here
+        //       loops can hopefully be made cleaner
 
         // ?
         final int vertexCount = this.heightMap.getHeight();
