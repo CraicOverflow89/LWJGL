@@ -22,14 +22,16 @@ public abstract class AbstractShader {
     private final int fragmentShaderID;
     private final int programID;
     private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
-    //private final List<String> attributeList;
+    private final List<String> attributeList;
     private final List<String> uniformIntList;
     protected final HashMap<String, Integer> uniformIntMap = new HashMap();
     private final List<Pair<String, Integer>> uniformArrayList;
     protected final HashMap<String, List<Integer>> uniformArrayMap = new HashMap();
 
-    public AbstractShader(String vertextFile, String fragmentFile, List<String> uniformIntList, List<Pair<String, Integer>> uniformArrayList) {
-        // NOTE: need to insert List<String> attributeList as third argument
+    public AbstractShader(String vertextFile, String fragmentFile, List<String> attributeList, List<String> uniformIntList, List<Pair<String, Integer>> uniformArrayList) {
+
+        // Attribute Names
+        this.attributeList = attributeList;
 
         // Uniform Data
         this.uniformIntList = uniformIntList;
@@ -57,19 +59,11 @@ public abstract class AbstractShader {
         getUniformLocations();
     }
 
-    protected final void bindAttribute(int attributeNumber, String variableName) {
-        GL20.glBindAttribLocation(programID, attributeNumber, variableName);
-    }
-    // NOTE: this can be deleted when using the new bindAttributes method
-
-    protected abstract void bindAttributes();
-    // NOTE: this can be deleted when using the new bindAttributes method
-
-    /*protected void bindAttributes() {
+    protected void bindAttributes() {
         for(int x = 0; x < attributeList.size(); x ++) {
-            GL20.glBindAttribLocation(programID, x, attributeList[x]);
+            GL20.glBindAttribLocation(programID, x, attributeList.get(x));
         }
-    }*/
+    }
 
     public final void clean() {
 

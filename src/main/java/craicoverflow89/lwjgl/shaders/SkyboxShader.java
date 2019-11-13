@@ -15,15 +15,13 @@ public final class SkyboxShader extends AbstractShader {
     private float rotationCurrent = 0;
 
     public SkyboxShader() {
-        super("vertexSkybox", "fragmentSkybox", List.of(
-            "projectionMatrix", "viewMatrix", "fogColour", "cubeMap1", "cubeMap2", "blendFactor"
-        ), List.of());
+        super(
+            "vertexSkybox", "fragmentSkybox",
+            List.of("position"),
+            List.of("projectionMatrix", "viewMatrix", "fogColour", "cubeMap1", "cubeMap2", "blendFactor"),
+            List.of()
+        );
     }
-
-    protected void bindAttributes() {
-        bindAttribute(0, "position");
-    }
-    // NOTE: do this in AbstractShader with ["position"] passed to super
 
     public void loadBlendFactor(float blendFactor) {
         loadUniform("blendFactor", blendFactor);

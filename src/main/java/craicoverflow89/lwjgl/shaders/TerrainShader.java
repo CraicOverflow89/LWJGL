@@ -13,18 +13,16 @@ import java.util.List;
 public final class TerrainShader extends AbstractShader {
 
     public TerrainShader() {
-        super("vertexTerrain", "fragmentTerrain", List.of(
-            "transformationMatrix", "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "skyColour",
-            "terrainBackground", "terrainColourR", "terrainColourG", "terrainColourB", "terrainBlendMap"
-        ), List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4), new Pair("attenuation", 4)));
+        super(
+            "vertexTerrain", "fragmentTerrain",
+            List.of("position", "textureCoords", "normal"),
+            List.of(
+                "transformationMatrix", "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "skyColour",
+                "terrainBackground", "terrainColourR", "terrainColourG", "terrainColourB", "terrainBlendMap"
+            ),
+            List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4), new Pair("attenuation", 4))
+        );
     }
-
-    protected void bindAttributes() {
-        bindAttribute(0, "position");
-        bindAttribute(1, "textureCoords");
-        bindAttribute(2, "normal");
-    }
-    // NOTE: do this in AbstractShader with ["position", "textureCoords", "normal"] passed to super
 
     public void loadLights(List<AbstractLight> lightList) {
 

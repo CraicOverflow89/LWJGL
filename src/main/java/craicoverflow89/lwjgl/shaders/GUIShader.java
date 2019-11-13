@@ -7,13 +7,13 @@ import java.util.List;
 public class GUIShader extends AbstractShader {
 
     public GUIShader() {
-        super("vertexGUI", "fragmentGUI", List.of("transformationMatrix"), List.of());
+        super(
+            "vertexGUI", "fragmentGUI",
+            List.of("position"),
+            List.of("transformationMatrix"),
+            List.of()
+        );
     }
-
-    protected void bindAttributes() {
-        bindAttribute(0, "position");
-    }
-    // NOTE: do this in AbstractShader with ["position"] passed to super
 
     public final void loadTransformationMatrix(Matrix4f transformation) {
         loadUniform("transformationMatrix", transformation);

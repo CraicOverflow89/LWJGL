@@ -13,18 +13,16 @@ import org.lwjgl.util.vector.Vector3f;
 public final class StaticShader extends AbstractShader {
 
     public StaticShader() {
-        super("vertexStatic", "fragmentStatic", List.of(
-            "transformationMatrix", "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "lightFake",
-            "skyColour", "textureRows", "textureOffset"
-        ), List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4), new Pair("attenuation", 4)));
+        super(
+            "vertexStatic", "fragmentStatic",
+            List.of("position", "textureCoords", "normal"),
+            List.of(
+                "transformationMatrix", "projectionMatrix", "viewMatrix", "shineDamper", "reflectivity", "lightFake",
+                "skyColour", "textureRows", "textureOffset"
+            ),
+            List.of(new Pair("lightPosition", 4), new Pair("lightColour", 4), new Pair("attenuation", 4))
+        );
     }
-
-    protected void bindAttributes() {
-        bindAttribute(0, "position");
-        bindAttribute(1, "textureCoords");
-        bindAttribute(2, "normal");
-    }
-    // NOTE: do this in AbstractShader with ["position", "textureCoords", "normal"] passed to super
 
     public void loadLights(List<AbstractLight> lightList) {
 
